@@ -233,7 +233,7 @@ class Lms_post_api extends Public_Controller
 		// prepare temp
 		$db_data_temp = array( 'CLIENT_ID' => $this->_postItem( 'cid' ),
 							   'TYPE' => $lead_type,
-							   'SOURCE' => 'online',
+							   // Removed  'SOURCE' => 'online',
 							   'CONTACT_NAME' => trim( $this->_postItem( 'fname' ).' '.$this->_postItem( 'lname' ) ),
 							   'ASIGNED_TO' => '0',
 							   'STATUS' => 'Nuevo',
