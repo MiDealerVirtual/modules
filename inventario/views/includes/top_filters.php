@@ -9,7 +9,7 @@
 		// Display Filters			
 		echo $filter_html;
 	?>
-			<div class="btn_3 fl"><a href="#" title="Filtar" id="jq_filters_submit">Filtrar</a></div>
+			<div class="btn_3 fl"><a href="#" title="Filtar" id="jq_filters_submit">Buscar</a></div>
 			<div class="btn_close"><a href="#" title="Limpiar Filtros" id="jq_view_all_submit"></a></div>
 	</form>
 	</div>
