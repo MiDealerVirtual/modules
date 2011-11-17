@@ -128,19 +128,23 @@
 					// Set Drop Down Title
 					$html .= "<option value=\"\">$dd_title</option>";
 				
+					// Set flag
+					$is_default_set = false;
+					
 					// Loop values
+					$loop_html = "";
 					foreach( $dd_values['VALUES'] as $v )
 					{
 						// Add Group, if necessary
 						if( $group_prices && $group_count == 0 )
 						{
-							$html .= "<optgroup label=\"".$group_labels[$group_count]."\">";
+							$loop_html .= "<optgroup label=\"".$group_labels[$group_count]."\">";
 							$group_count++;
 						}
 						else if( $group_prices && $group_count == 1 && strpos( $v, "a-new" ) === FALSE )
 						{
-							$html .= "</optgroup>";
-							$html .= "<optgroup label=\"".$group_labels[$group_count]."\">";
+							$loop_html .= "</optgroup>";
+							$loop_html .= "<optgroup label=\"".$group_labels[$group_count]."\">";
 							$group_count++;
 						}
 						
@@ -168,19 +172,28 @@
 						$count = "";//  [".$dd_values['COUNT'][$v]."]";
 							
 						// Add values
-						$html .= "<option value=\"$v\"";
+						$loop_html .= "<option value=\"$v\"";
 							// Select Value
 							if( $dd_selected != false && $dd_selected == $v )
-								$html .= " selected=\"selected\"";
-						$html .= ">$ov$count</option>";
+							{
+								$loop_html .= " selected=\"selected\"";
+								$is_default_set = true;
+							}
+						$loop_html .= ">$ov$count</option>";
+					}
+					
+					// If default not set, make one
+					if( $dd_name == "models" && !$is_default_set && $dd_selected != "" )
+					{
+						$loop_html = "<option value=\"$dd_selected\" selected=\"selected\">$dd_selected</option>".$loop_html;
 					}
 					
 					// Close Option Group
 					if( $group_prices )
-						$html .= "</optgroup>";
+						$loop_html .= "</optgroup>";
 				
 				// Close HTML
-				$html .= "</select>";
+				$html .= $loop_html."</select>";
 				
 				// Return HTML
 				return $html;
@@ -230,7 +243,7 @@
 					elseif( $k == "makes" && $v != '' )
 						$where .= " AND `MAKE` = '".$v."'";
 					elseif( $k == "models" && $v != '' )
-						$where .= " AND `MODEL` = '".$v."'";
+						$where .= " AND `MODEL` LIKE '%".$v."%'";
 					elseif( $k == "conditions" && $v != '' )
 						$where .= " AND `CONDITION` = '".$v."'";
 					elseif( $k == "transmissions" && $v != '' )
