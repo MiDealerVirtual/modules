@@ -106,8 +106,7 @@ class Inventario extends Public_Controller
 		$this->mod_view_data['veh_id'] = $this->mod_uri_vars['veh_id'];
 		
 		// Determine Max # of Similar
-		$this->mod_view_data['max_similar'] = $this->mod_cms_vars['max_similar'];
-		echo "Max: ".$this->mod_view_data['max_similar']."  <<<br />";
+		$this->mod_view_data['max_similar'] = ( $this->mod_cms_vars['max_similar'] == "" ) ? 10 : $this->mod_cms_vars['max_similar'];
 		
 		// Fetch Vehicle
 		$v = $this->inventario_model->select_item( $this->mod_view_data['veh_id'], 'VEH_ID', 'vehicles_available_to_viewer_final' );
