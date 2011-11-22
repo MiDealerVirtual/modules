@@ -136,7 +136,7 @@
                 <div class="box_similares clearfix">
                     <h2 class="related">Otros Veh&iacute;culos</h2>
                     
-                {pyro:inventory_fetcher:similar veh_id="<?=$v->VEH_ID?>" make="<?=$v->MAKE?>" model="<?=$v->MODEL?>" type="<?=$v->TYPE?>"}
+                {pyro:inventory_fetcher:similar veh_id="<?=$v->VEH_ID?>" make="<?=$v->MAKE?>" model="<?=$v->MODEL?>" type="<?=$v->TYPE?>" limit="<?=$max_similar?>"}
                     <!-- result -->
                     <div class="box_similares_result clearfix">
                         <div class="box_similares_thumb"><a href="{pyro:VEH_URL}" title="{pyro:SEO_VEH_LABEL}"><img src="{pyro:IMAGE_W_PATH}" alt="{pyro:SEO_VEH_LABEL}" title="{pyro:SEO_VEH_LABEL}" /></a></div>
