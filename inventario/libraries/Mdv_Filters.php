@@ -160,6 +160,8 @@
 								$ov = "Nuevo";
 							elseif( $v == "used" )
 								$ov = "Usado";
+							elseif( $v == "certified" )
+								$ov = "Certificado";
 							elseif( $v == "automatic" )
 								$ov = "Autom&aacute;tica";
 							elseif( $v == "manual" )

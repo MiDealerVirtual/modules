@@ -110,6 +110,7 @@ class Inventario extends Public_Controller
 		
 		// Fetch Vehicle
 		$v = $this->inventario_model->select_item( $this->mod_view_data['veh_id'], 'VEH_ID', 'vehicles_available_to_viewer_final' );
+		transalateVehicleAttr( $v );
 		$this->mod_view_data['v'] = $v;
 		
 		// Fetch Vehilce Images
@@ -153,12 +154,6 @@ class Inventario extends Public_Controller
 		$this->mod_view_data['seo_image_label'] = $this->mod_view_data['seo_vehicle_label']." en ".$this->mod_cms_vars['dealer_name'];
 		$this->mod_view_data['inventory_url'] = ( strpos( $_SERVER['HTTP_REFERER'], $this->mod_uri_slug."?" ) != FALSE ) ? $_SERVER['HTTP_REFERER'] : $this->mod_cms_vars['base_url'].$this->mod_uri_slug ;
 		$this->mod_view_data['bread_crumb_extras'] = '';
-			/*'<a href="'.$this->mod_cms_vars['base_url'].$this->mod_uri_slug.'?makes='.$v->MAKE.'">'.$v->MAKE.'</a>'.
-			" &raquo; ".
-			'<a href="'.$this->mod_cms_vars['base_url'].$this->mod_uri_slug.'?models='.$v->MODEL.'">'.$v->MODEL.'</a>'.
-			" &raquo; ".
-			'<a href="'.$this->mod_cms_vars['base_url'].$this->mod_uri_slug.'?years='.$v->YEAR.'">'.$v->YEAR.'</a>'.
-			" &raquo; ";*/
 		
 		// Load JS vars
 		$this->mod_view_data['js_vars'] = array( "var lightbox_path = '".$this->config->item( 'lightbox_path' )."';" );

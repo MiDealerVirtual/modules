@@ -40,6 +40,9 @@
 			
 			// create vehicle title
 			$v_label = getVehicleLabel( $v );
+			
+			// translate vehicle attributes
+			transalateVehicleAttr( $v );
 ?>
                         <!-- result -->
                         <div class="box_result clearfix">
@@ -57,8 +60,8 @@
                                     <li><strong>Color:</strong> <?=$v->COLOR?></li>
                                 </ul>
                                 <ul>
-                                    <li><strong>Condici&oacute;n:</strong> <?=transalateVehicleAttr( "CONDITION ", $v->CONDITION )?></li>
-                                    <li><strong>Transmisi&oacute;n: </strong> <?=transalateVehicleAttr( "TRANSMISSION ", $v->TRANSMISSION )?></li>
+                                    <li><strong>Condici&oacute;n:</strong> <?=$v->CONDITION?></li>
+                                    <li><strong>Transmisi&oacute;n: </strong> <?=$v->TRANSMISSION?></li>
                                 </ul>
                                 <ul>
                                     <li><strong>VIN:</strong><?=$v->VIN?></li>
