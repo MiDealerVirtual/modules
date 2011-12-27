@@ -18,7 +18,7 @@
 	?>
                     <!-- alert -->
                     <div class="alert_1">
-                        No encontramos vechículos con esas especificaciones.
+                        No encontramos vehículos con esas especificaciones.
                         <br />
                         Intente aplicando menos filtros.
                     </div>
