@@ -349,7 +349,7 @@ class Lms_post_api extends Public_Controller
 			}
 			//else
 			//{
-			//	return json_encode( array( 'msg' => 'not working' ) );	
+			return json_encode( array( 'msg' => 'not working' ) );	
 			//}
 			
 			// return json message confirming success
