@@ -282,7 +282,7 @@ class Lms_post_api extends Public_Controller
 		}
 		
 		// determine if vehicle reservation is occuring
-		$send_to_crm = $this->mod_cms_vars['crm_type'] && $this->mod_cms_vars['crm_email'];
+		$send_to_crm = ( $this->mod_cms_vars['crm_type'] !== FALSE ) && ( $this->mod_cms_vars['crm_email'] !== FALSE );
 		if( $send_to_crm && isset( $data_to_push['DATA']['veh_id'] ) )
 		{
 			$veh_obj = $this->mdv_db->query( "SELECT * FROM `vehicles_available_to_viewer` WHERE `VEH_ID` = '".$data_to_push['DATA']['veh_id']."'" );
@@ -346,12 +346,6 @@ class Lms_post_api extends Public_Controller
 				
 				// send to CRM
 				$this->_sendToCRM( $param_1, $param_2, $param_3 );
-				
-				return json_encode( array( 'msg' => 'inside' ) );
-			}
-			else
-			{
-				return json_encode( array( 'msg' => 'outside' ) );
 			}
 			
 			// return json message confirming success
@@ -452,10 +446,10 @@ class Lms_post_api extends Public_Controller
 		}
 
 		// Load Email Library
-		/*$this->load->library('email');
+		$this->load->library('email');
 		
 		// Configure email settings
-		$this->email->initialize( /*array( 'mailtype' => 'html' )* / );
+		$this->email->initialize( /*array( 'mailtype' => 'html' )*/ );
 		
 		// Configure email reciepients
 		$this->email->from( 'leads@midealervirtual.com', 'MiDealerVirtual.com' );
@@ -466,14 +460,7 @@ class Lms_post_api extends Public_Controller
 		$this->email->message( $format );
 		
 		// Send email
-		$this->email->send();*/
-		print_r( $veh );
-		echo "<br /><br /><br />";
-		print_r( $db_data );
-		echo "<br /><br /><br />";
-		echo $type;
-		echo "<br /><br /><br />";
-		echo $this->mod_cms_vars['crm_email'];
+		$this->email->send();
 	}
 }
 ?>
