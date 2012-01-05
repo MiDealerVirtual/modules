@@ -449,7 +449,7 @@ class Lms_post_api extends Public_Controller
 		$this->load->library('email');
 		
 		// Configure email settings
-		$this->email->initialize( /*array( 'mailtype' => 'html' )*/ );
+		$this->email->initialize( array( 'mailtype' => 'html' ) );
 		
 		// Configure email reciepients
 		$this->email->from( 'leads@midealervirtual.com', 'MiDealerVirtual.com' );
