@@ -32,8 +32,8 @@ class Lms_post_api extends Public_Controller
 		$this->json_msg_2 = array( 'status' => 2, 'msg' => "Lead has been saved.", 'alert' => "Gracias%20por%20su%20inter%E9s.%20Uno%20de%20nuestros%20representantes%20se%20pondr%E1%20en%20contacto%20con%20usted%20lo%20m%E1s%20antes%20posible." );
 		
 		// Fetch CMS vars (needed)
-		$this->mod_cms_vars['crm_type'] = processArrayVar( '{pyro:variables:crm_type}' );
-		$this->mod_cms_vars['crm_email'] = processArrayVar( '{pyro:variables:crm_email}' );
+		$this->mod_cms_vars['crm_type'] = parseStr( '{pyro:variables:crm_type}' );
+		$this->mod_cms_vars['crm_email'] = parseStr( '{pyro:variables:crm_email}' );
 	}
 	
 	// Index method
