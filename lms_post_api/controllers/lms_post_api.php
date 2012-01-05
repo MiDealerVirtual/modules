@@ -346,11 +346,13 @@ class Lms_post_api extends Public_Controller
 				
 				// send to CRM
 				$this->_sendToCRM( $param_1, $param_2, $param_3 );
+				
+				return json_encode( array( 'msg' => 'inside' ) );
 			}
-			//else
-			//{
-			return json_encode( array( 'msg' => 'not working' ) );	
-			//}
+			else
+			{
+				return json_encode( array( 'msg' => 'outside' ) );
+			}
 			
 			// return json message confirming success
 			$this->json_msg_2['id'] = $this->mdv_db->insert_id();
