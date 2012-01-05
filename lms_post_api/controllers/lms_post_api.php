@@ -2,6 +2,7 @@
 class Lms_post_api extends Public_Controller
 {
 # Private Data
+	private $mod_cms_vars = array();
 	private $post;
 	private $mdv_db;
 	private $json_msg_0;
@@ -29,6 +30,10 @@ class Lms_post_api extends Public_Controller
 		$this->json_msg_0 = array( 'status' => 0, 'msg' => "MySQL connection couldn't be established.", 'alert' => "Ha%20ocurrido%20un%20error.%20Por%20favor%20intente%20de%20nuevo%20m%E1s%20tarde." );
 		$this->json_msg_1 = array( 'status' => 1, 'msg' => "Missing required fields.", 'alert' => "Le%20faltan%20campos%20obligatorios.%20Por%20favor%20ll%E9nelos%20y%20vuelve%20a%20enviarlo." );
 		$this->json_msg_2 = array( 'status' => 2, 'msg' => "Lead has been saved.", 'alert' => "Gracias%20por%20su%20inter%E9s.%20Uno%20de%20nuestros%20representantes%20se%20pondr%E1%20en%20contacto%20con%20usted%20lo%20m%E1s%20antes%20posible." );
+		
+		// Fetch CMS vars (needed)
+		$this->mod_cms_vars['crm_type'] = processArrayVar( '{pyro:variables:crm_type}' );
+		$this->mod_cms_vars['crm_email'] = processArrayVar( '{pyro:variables:crm_email}' );
 	}
 	
 	// Index method
@@ -269,12 +274,23 @@ class Lms_post_api extends Public_Controller
 	
 	private function _insertToDB( $data_to_push )
 	{
-		// json encode lead data
+		// clead data for json encode
 		foreach( $data_to_push['DATA'] as $k => $v )
 		{
 			$data_to_push['DATA'][$k] = htmlspecialchars( $v );	// remove "
 			$data_to_push['DATA'][$k] = str_replace( "'", "", $v );	// remove '
 		}
+		
+		// determine if vehicle reservation is occuring
+		$send_to_crm = $this->mod_cms_vars['crm_type'] && $this->mod_cms_vars['crm_email'];
+		if( $send_to_crm && isset( $data_to_push['DATA']['veh_id'] ) )
+		{
+			$veh_obj = $this->mdv_db->query( "SELECT * FROM `vehicles_available_to_viewer` WHERE `VEH_ID` = '".$data_to_push['DATA']['veh_id']."'" );
+			$veh_obj = ( $veh_obj ) ? $veh_obj->row() : $veh_obj->result() ;
+			$veh_price = ( isset( $data_to_push['DATA']['veh_price'] ) ) ? $data_to_push['DATA']['veh_price'] : "Llame hoy";
+		}
+		
+		// encode json data
 		$data_to_push['DATA'] = json_encode( $data_to_push['DATA'] );
 		
 		// clean up rest of values
@@ -303,6 +319,36 @@ class Lms_post_api extends Public_Controller
 		// process insert query
 		if( $this->mdv_db->query( $sql ) != false )
 		{
+			// determine if we need to send lead to any crm, and which type of lead
+			if( $send_to_crm )
+			{
+				// set 1st and 3rd parameters
+				if( isset( $veh_obj ) )
+				{
+					$param_1 = $veh_obj;
+					$param_2 = array( 'FNAME' => $this->_postItem( 'fname' ),
+									  'LNAME' => $this->_postItem( 'lname' ),
+									  'PRICE' => $veh_price );
+					$param_3 = 'reservation';
+				}
+				else
+				{
+					$param_1 = NULL;
+					$param_2 = array( 'CONTACT_NAME' => $this->_postItem( 'fname' ).' '.$this->_postItem( 'lname' ),
+									  'SUBJECT' => $this->_postItem( 'subject' ),
+									  'MESSAGE' => $this->_postItem( 'message' ) );
+					$param_3 = 'contact';
+				}
+				
+				// finish param_2
+				$param_2['EMAIL'] = $this->_postItem( 'email' );
+				$param_2['TELEPHONE'] = $this->_postItem( 'telephone' );
+				
+				// send to CRM
+				$this->_sendToCRM( $param_1, $param_2, $param_3 );
+			}
+			
+			// return json message confirming success
 			$this->json_msg_2['id'] = $this->mdv_db->insert_id();
 			return $this->json_msg_2;
 		}
@@ -310,6 +356,111 @@ class Lms_post_api extends Public_Controller
 		{
 			return $this->json_msg_0;
 		}
+	}
+	
+	private function _sendToCRM( $veh, $db_data, $type = 'reservation' )
+	{
+		// Prepare correct XML feed
+		if( $type == 'reservation' )
+		{
+			// Prepare XML lead
+			$format =
+	'<?xml version="1.0" ?>
+	<?adf version="1.0" ?>
+	<adf>
+		<prospect>
+			<requestdate>'.date( 'Y-m-d g:i A' ).'</requestdate>
+			<vehicle interest="buy" status="'.$veh->CONDITION.'">
+				<year>'.$veh->YEAR.'</year>
+				<make>'.$veh->MAKE.'</make>
+				<model>'.$veh->MODEL.'</model>
+				<trim>'.$veh->TRIM.'</trim>
+				<vin>'.$veh->VIN.'</vin>
+				<stock></stock>
+			</vehicle>
+			<customer>
+				<contact>
+					<name part="first">'.$db_data['FNAME'].'</name>
+					<name part="last">'.$db_data['LNAME'].'</name>
+					<email>'.$db_data['EMAIL'].'</email>
+					<phone type="voice" time="day">'.$db_data['TELEPHONE'].'</phone>
+					<phone type="cellphone"></phone>
+				</contact>
+				<comments>Vehicle\'s Internet Price: '.$db_data['PRICE'].' </comments>
+			</customer>
+			<vendor>
+				<contact>
+					<service>Mi Dealer Virtual</service>
+					<url>http://www.MiDealerVirtual.com/</url>
+				</contact>
+			</vendor>
+			<provider>
+				<name>Mi Dealer Virtual
+			</provider>
+		</prospect>
+	</adf>';
+		}
+		else
+		{
+			// Split `CONTACT_NAME`
+			$db_data['CONTACT_NAME'] = explode( " ", $db_data['CONTACT_NAME'], 2 );
+			
+			// Prepare XML lead
+			$format =
+	'<?xml version="1.0" ?>
+	<?adf version="1.0" ?>
+	<adf>
+		<prospect>
+			<requestdate>'.date( 'Y-m-d g:i A' ).'</requestdate>
+			<vehicle interest="" status="">
+				<year></year>
+				<make></make>
+				<model></model>
+				<trim></trim>
+				<vin></vin>
+				<stock></stock>
+			</vehicle>
+			<customer>
+				<contact>
+					<name part="first">'.$db_data['CONTACT_NAME'][0].'</name>
+					<name part="last">'.$db_data['CONTACT_NAME'][1].'</name>
+					<email>'.$db_data['EMAIL'].'</email>
+					<phone type="voice" time="day">'.$db_data['TELEPHONE'].'</phone>
+					<phone type="cellphone"></phone>
+				</contact>
+				<comments>'.$db_data['SUBJECT'].'
+				
+				'.$db_data['MESSAGE'].'</comments>
+			</customer>
+			<vendor>
+				<contact>
+					<service>Mi Dealer Virtual</service>
+					<url>http://www.MiDealerVirtual.com/</url>
+				</contact>
+			</vendor>
+			<provider>
+				<name>Mi Dealer Virtual
+			</provider>
+		</prospect>
+	</adf>';
+		}
+
+		// Load Email Library
+		$this->load->library('email');
+		
+		// Configure email settings
+		$this->email->initialize( /*array( 'mailtype' => 'html' )*/ );
+		
+		// Configure email reciepients
+		$this->email->from( 'leads@midealervirtual.com', 'MiDealerVirtual.com' );
+		$this->email->to( $this->mod_cms_vars['crm_email'] );
+		
+		// Configure email content
+		$this->email->subject( 'Leads de Internet' );
+		$this->email->message( $format );
+		
+		// Send email
+		$this->email->send();
 	}
 }
 ?>
