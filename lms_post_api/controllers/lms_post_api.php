@@ -395,7 +395,7 @@ class Lms_post_api extends Public_Controller
 				</contact>
 			</vendor>
 			<provider>
-				<name>Mi Dealer Virtual
+				<name>Mi Dealer Virtual</name>
 			</provider>
 		</prospect>
 	</adf>';
@@ -439,7 +439,7 @@ class Lms_post_api extends Public_Controller
 				</contact>
 			</vendor>
 			<provider>
-				<name>Mi Dealer Virtual
+				<name>Mi Dealer Virtual</name>
 			</provider>
 		</prospect>
 	</adf>';
