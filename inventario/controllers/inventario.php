@@ -39,6 +39,9 @@ class Inventario extends Public_Controller
 		$this->mod_view_data['mod_uri_slug'] = $this->mod_uri_slug;
 		$this->mod_cms_vars = extractVars( varsToExtract() );
 		$this->mod_view_data['cms_vars'] = $this->mod_cms_vars;
+		
+		// Fetch extra variables
+		$this->mod_view_data['cms_vars']['inventory_page_max'] = parseStr( '{pyro:variables:inventory_page_max}' );
 	}
 	
 	// Index, main module method
@@ -46,7 +49,7 @@ class Inventario extends Public_Controller
 	{
 		// Fetch inventory
 		$this->mod_view_data['applied_offset'] = ( array_key_exists( 'offset', $this->mod_get_vars ) ) ? $this->mod_get_vars['offset'] : 0 ;
-		$this->mod_view_data['applied_perpage'] = 20;
+		$this->mod_view_data['applied_perpage'] = ( $this->mod_view_data['cms_vars']['inventory_page_max'] == '' ) ? 20 : $this->mod_view_data['cms_vars']['inventory_page_max'];
 		$this->mod_view_data['vehicles_collected'] = $this->inventario_model->fetchMultiVehicles( 'vehicles_available_to_viewer_final', $this->mod_cms_vars['mdv_ids'] );
 		
 		// Initiate Mdv Filter Library
