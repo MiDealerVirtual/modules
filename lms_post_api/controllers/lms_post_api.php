@@ -347,8 +347,7 @@ class Lms_post_api extends Public_Controller
 				$param_2['TYPE'] = $data_to_push['TYPE'];
 				
 				// send to CRM
-				// $this->_sendToCRM( $param_1, $param_2, $param_3 );
-				return array( 'types_excluded' => $this->mod_cms_vars['crm_type_exclusion'], 'curr_type' => $param_2['TYPE'] );
+				$this->_sendToCRM( $param_1, $param_2, $param_3 );
 			}
 			
 			// return json message confirming success
