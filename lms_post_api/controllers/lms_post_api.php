@@ -34,6 +34,7 @@ class Lms_post_api extends Public_Controller
 		// Fetch CMS vars (needed)
 		$this->mod_cms_vars['crm_type'] = parseStr( '{pyro:variables:crm_type}' );
 		$this->mod_cms_vars['crm_email'] = parseStr( '{pyro:variables:crm_email}' );
+		$this->mod_cms_vars['crm_type_exclusion'] = explode( ',', parseStr( '{pyro:variables:crm_type_exclusion}' ) );
 	}
 	
 	// Index method
@@ -360,107 +361,112 @@ class Lms_post_api extends Public_Controller
 	
 	private function _sendToCRM( $veh, $db_data, $type = 'reservation' )
 	{
-		// Prepare correct XML feed
-		if( $type == 'reservation' )
+		// Detect what crm type is being used
+		$is_excluded = in_array( $db_data['TYPE'], $this->mod_cms_vars['crm_type_exclusion'] );
+		if( $this->mod_cms_vars['crm_type'] == "dealersocket" && !$is_excluded )
 		{
-			// Prepare XML lead
-			$format =
-	'<?xml version="1.0" ?>
-	<?adf version="1.0" ?>
-	<adf>
-		<prospect>
-			<requestdate>'.date( 'Y-m-d g:i A' ).'</requestdate>
-			<vehicle interest="buy" status="'.$veh->CONDITION.'">
-				<year>'.$veh->YEAR.'</year>
-				<make>'.$veh->MAKE.'</make>
-				<model>'.$veh->MODEL.'</model>
-				<trim>'.$veh->TRIM.'</trim>
-				<vin>'.$veh->VIN.'</vin>
-				<stock></stock>
-			</vehicle>
-			<customer>
-				<contact>
-					<name part="first">'.$db_data['FNAME'].'</name>
-					<name part="last">'.$db_data['LNAME'].'</name>
-					<email>'.$db_data['EMAIL'].'</email>
-					<phone type="voice" time="day">'.$db_data['TELEPHONE'].'</phone>
-					<phone type="cellphone"></phone>
-				</contact>
-				<comments>Vehicle\'s Internet Price: '.$db_data['PRICE'].' </comments>
-			</customer>
-			<vendor>
-				<contact>
-					<service>Mi Dealer Virtual</service>
-					<url>http://www.MiDealerVirtual.com/</url>
-				</contact>
-			</vendor>
-			<provider>
-				<name>Mi Dealer Virtual</name>
-			</provider>
-		</prospect>
-	</adf>';
-		}
-		else
-		{
-			// Split `CONTACT_NAME`
-			$db_data['CONTACT_NAME'] = explode( " ", $db_data['CONTACT_NAME'], 2 );
-			
-			// Prepare XML lead
-			$format =
-	'<?xml version="1.0" ?>
-	<?adf version="1.0" ?>
-	<adf>
-		<prospect>
-			<requestdate>'.date( 'Y-m-d g:i A' ).'</requestdate>
-			<vehicle interest="" status="">
-				<year></year>
-				<make></make>
-				<model></model>
-				<trim></trim>
-				<vin></vin>
-				<stock></stock>
-			</vehicle>
-			<customer>
-				<contact>
-					<name part="first">'.$db_data['CONTACT_NAME'][0].'</name>
-					<name part="last">'.$db_data['CONTACT_NAME'][1].'</name>
-					<email>'.$db_data['EMAIL'].'</email>
-					<phone type="voice" time="day">'.$db_data['TELEPHONE'].'</phone>
-					<phone type="cellphone"></phone>
-				</contact>
-				<comments>'.$db_data['SUBJECT'].'
+			// Prepare correct XML feed
+			if( $type == 'reservation' )
+			{
+				// Prepare XML lead
+				$format =
+		'<?xml version="1.0" ?>
+		<?adf version="1.0" ?>
+		<adf>
+			<prospect>
+				<requestdate>'.date( 'Y-m-d g:i A' ).'</requestdate>
+				<vehicle interest="buy" status="'.$veh->CONDITION.'">
+					<year>'.$veh->YEAR.'</year>
+					<make>'.$veh->MAKE.'</make>
+					<model>'.$veh->MODEL.'</model>
+					<trim>'.$veh->TRIM.'</trim>
+					<vin>'.$veh->VIN.'</vin>
+					<stock></stock>
+				</vehicle>
+				<customer>
+					<contact>
+						<name part="first">'.$db_data['FNAME'].'</name>
+						<name part="last">'.$db_data['LNAME'].'</name>
+						<email>'.$db_data['EMAIL'].'</email>
+						<phone type="voice" time="day">'.$db_data['TELEPHONE'].'</phone>
+						<phone type="cellphone"></phone>
+					</contact>
+					<comments>Vehicle\'s Internet Price: '.$db_data['PRICE'].' </comments>
+				</customer>
+				<vendor>
+					<contact>
+						<service>Mi Dealer Virtual</service>
+						<url>http://www.MiDealerVirtual.com/</url>
+					</contact>
+				</vendor>
+				<provider>
+					<name>Mi Dealer Virtual</name>
+				</provider>
+			</prospect>
+		</adf>';
+			}
+			else
+			{
+				// Split `CONTACT_NAME`
+				$db_data['CONTACT_NAME'] = explode( " ", $db_data['CONTACT_NAME'], 2 );
 				
-				'.$db_data['MESSAGE'].'</comments>
-			</customer>
-			<vendor>
-				<contact>
-					<service>Mi Dealer Virtual</service>
-					<url>http://www.MiDealerVirtual.com/</url>
-				</contact>
-			</vendor>
-			<provider>
-				<name>Mi Dealer Virtual</name>
-			</provider>
-		</prospect>
-	</adf>';
+				// Prepare XML lead
+				$format =
+		'<?xml version="1.0" ?>
+		<?adf version="1.0" ?>
+		<adf>
+			<prospect>
+				<requestdate>'.date( 'Y-m-d g:i A' ).'</requestdate>
+				<vehicle interest="" status="">
+					<year></year>
+					<make></make>
+					<model></model>
+					<trim></trim>
+					<vin></vin>
+					<stock></stock>
+				</vehicle>
+				<customer>
+					<contact>
+						<name part="first">'.$db_data['CONTACT_NAME'][0].'</name>
+						<name part="last">'.$db_data['CONTACT_NAME'][1].'</name>
+						<email>'.$db_data['EMAIL'].'</email>
+						<phone type="voice" time="day">'.$db_data['TELEPHONE'].'</phone>
+						<phone type="cellphone"></phone>
+					</contact>
+					<comments>'.$db_data['SUBJECT'].'
+					
+					'.$db_data['MESSAGE'].'</comments>
+				</customer>
+				<vendor>
+					<contact>
+						<service>Mi Dealer Virtual</service>
+						<url>http://www.MiDealerVirtual.com/</url>
+					</contact>
+				</vendor>
+				<provider>
+					<name>Mi Dealer Virtual</name>
+				</provider>
+			</prospect>
+		</adf>';
+			}
+	
+			// Load Email Library
+			$this->load->library('email');
+			
+			// Configure email settings
+			$this->email->initialize( array( 'mailtype' => 'text' ) );
+			
+			// Configure email reciepients
+			$this->email->from( 'leads@midealervirtual.com', 'MiDealerVirtual.com' );
+			$this->email->to( $this->mod_cms_vars['crm_email'] );
+			
+			// Configure email content
+			$this->email->subject( 'Leads de Internet' );
+			$this->email->message( $format );
+			
+			// Send email
+			$this->email->send();
 		}
-
-		// Load Email Library
-		$this->load->library('email');
-		
-		// Configure email settings
-		$this->email->initialize( array( 'mailtype' => 'text' ) );
-		
-		// Configure email reciepients
-		$this->email->from( 'leads@midealervirtual.com', 'MiDealerVirtual.com' );
-		$this->email->to( $this->mod_cms_vars['crm_email'] );
-		
-		// Configure email content
-		$this->email->subject( 'Leads de Internet' );
-		$this->email->message( $format );
-		
-		// Send email
-		$this->email->send();
 	}
 }
 ?>
