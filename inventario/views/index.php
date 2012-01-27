@@ -44,7 +44,7 @@
 			// translate vehicle attributes
 			transalateVehicleAttr( $v );
 ?>
-                        <!-- result -->
+                        <!-- result: vehicle #<?=$i?> -->
                         <div class="box_result clearfix">
                             <!-- start thumb -->
                             <div class="thumbs">

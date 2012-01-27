@@ -92,7 +92,7 @@
                         
                         <!--detail map-->
                         <div class="box_detail_map">
-                        	<div class="image_location_1"><a href="{pyro:url:site}contactenos"></a></div>
+                        	<div class="image_location_1"><a href="{pyro:url:site}<?=$cms_vars['contact_map_url']?>"></a></div>
                         </div>
                         <!-- end detail map-->
                         
