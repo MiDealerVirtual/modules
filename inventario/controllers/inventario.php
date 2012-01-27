@@ -47,11 +47,12 @@ class Inventario extends Public_Controller
 	// Index, main module method
 	public function index()
 	{
-		echo "This is a test: ".$this->mod_view_data['cms_vars']['inventory_page_max'];
 		// Fetch inventory
 		$this->mod_view_data['applied_offset'] = ( array_key_exists( 'offset', $this->mod_get_vars ) ) ? $this->mod_get_vars['offset'] : 0 ;
 		$this->mod_view_data['applied_perpage'] = ( $this->mod_view_data['cms_vars']['inventory_page_max'] == '' ) ? 20 : $this->mod_view_data['cms_vars']['inventory_page_max'];
 		$this->mod_view_data['vehicles_collected'] = $this->inventario_model->fetchMultiVehicles( 'vehicles_available_to_viewer_final', $this->mod_cms_vars['mdv_ids'] );
+		
+		echo "This is a test: ".$this->mod_view_data['cms_vars']['inventory_page_max']." <==> ".$this->mod_view_data['applied_perpage'];
 		
 		// Initiate Mdv Filter Library
 		$this->load->library( 'Mdv_Filters', array( 'db_results' => $this->mod_view_data['vehicles_collected'], 'filters' => array( 'YEAR', 'MAKE', 'MODEL', 'CONDITION', 'TRANSMISSION', 'PRICE_RANGE', 'MILEAGE_RANGE' ), 'get_vars' => $this->mod_get_vars, 'mdv_ids' => $this->mod_cms_vars['mdv_ids'] ) );
@@ -104,7 +105,7 @@ class Inventario extends Public_Controller
 	{
 		// Extend CMS vars
 		$this->mod_cms_vars['lot_addresses'] = processArrayVar( '{pyro:variables:lot_addresses}' );
-		$this->mod_cms_vars['contact_map_url'] = processArrayVar( '{pyro:variables:contact_map_url}' );
+		$this->mod_cms_vars['contact_map_url'] = parseStr( '{pyro:variables:contact_map_url}' );
 			$this->mod_cms_vars['contact_map_url'] = ( $this->mod_cms_vars['contact_map_url'] == "" ) ? false : $this->mod_cms_vars['contact_map_url'];
 			echo "This is a test: ".$this->mod_cms_vars['contact_map_url']; 
 		$this->mod_view_data['cms_vars'] = $this->mod_cms_vars;
