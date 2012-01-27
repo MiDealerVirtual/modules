@@ -47,6 +47,7 @@ class Inventario extends Public_Controller
 	// Index, main module method
 	public function index()
 	{
+		echo "This is a test: ".$this->mod_view_data['cms_vars']['inventory_page_max'];
 		// Fetch inventory
 		$this->mod_view_data['applied_offset'] = ( array_key_exists( 'offset', $this->mod_get_vars ) ) ? $this->mod_get_vars['offset'] : 0 ;
 		$this->mod_view_data['applied_perpage'] = ( $this->mod_view_data['cms_vars']['inventory_page_max'] == '' ) ? 20 : $this->mod_view_data['cms_vars']['inventory_page_max'];
@@ -103,6 +104,9 @@ class Inventario extends Public_Controller
 	{
 		// Extend CMS vars
 		$this->mod_cms_vars['lot_addresses'] = processArrayVar( '{pyro:variables:lot_addresses}' );
+		$this->mod_cms_vars['contact_map_url'] = processArrayVar( '{pyro:variables:contact_map_url}' );
+			$this->mod_cms_vars['contact_map_url'] = ( $this->mod_cms_vars['contact_map_url'] == "" ) ? false : $this->mod_cms_vars['contact_map_url'];
+			echo "This is a test: ".$this->mod_cms_vars['contact_map_url']; 
 		$this->mod_view_data['cms_vars'] = $this->mod_cms_vars;
 		
 		// Save Vehicle ID
