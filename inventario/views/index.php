@@ -35,6 +35,10 @@
 		$i = 1;
 		foreach( $results as $v )
 		{
+			// skip, if stock, if required
+			if( $cms_vars['skip_stock_vehicles'] == 'yes' && $v->IOL_IMAGE == 1 )
+				continue;
+			
 			// create vehicle link
 			$v_link = getVehicleLink( $v, $mod_uri_slug, $cms_vars );
 			

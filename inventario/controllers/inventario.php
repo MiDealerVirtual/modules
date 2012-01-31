@@ -42,6 +42,7 @@ class Inventario extends Public_Controller
 		
 		// Fetch extra variables
 		$this->mod_view_data['cms_vars']['inventory_page_max'] = parseStr( '{pyro:variables:inventory_page_max}' );
+		$this->mod_view_data['cms_vars']['skip_stock_vehicles'] = parseStr( '{pyro:variables:skip_stock_vehicles}' );
 	}
 	
 	// Index, main module method
