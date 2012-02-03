@@ -106,6 +106,7 @@ class Inventario extends Public_Controller
 		$this->mod_cms_vars['lot_addresses'] = processArrayVar( '{pyro:variables:lot_addresses}' );
 		$this->mod_cms_vars['contact_map_url'] = parseStr( '{pyro:variables:contact_map_url}' );
 			$this->mod_cms_vars['contact_map_url'] = ( $this->mod_cms_vars['contact_map_url'] == "" ) ? "contactenos" : $this->mod_cms_vars['contact_map_url'];
+		$this->mod_cms_vars['sidebar_pre_content'] = parseStr( '{pyro:variables:vehicle_page_sidebar_pre_content}' );
 		$this->mod_view_data['cms_vars'] = $this->mod_cms_vars;
 		
 		// Save Vehicle ID

@@ -132,6 +132,11 @@
             <!-- start column right-->
             <div class="column_right">
             
+			<?
+                // Show pre sidebar content
+                if( $cms_vars['sidebar_pre_content'] == 'yes' ):?>{pyro:widget_fetcher:instance id="69"}<? endif;
+			?>
+            
                 <!-- strat mod inventario similares-->
                 <div class="box_similares clearfix">
                     <h2 class="related">Otros Veh&iacute;culos</h2>
