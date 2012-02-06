@@ -48,6 +48,11 @@ class Inventario extends Public_Controller
 	// Index, main module method
 	public function index()
 	{
+		// Extend cms variables
+		$custom_alert = parseStr( '{pyro:variables:inventory_page_custom_alert}' );
+		$custom_alert = ( $custom_alert == '' ) ? false : json_decode( $custom_alert, true );
+		$this->mod_view_data['cms_vars']['custom_alert'] = $custom_alert;
+		
 		// Fetch inventory
 		$this->mod_view_data['applied_offset'] = ( array_key_exists( 'offset', $this->mod_get_vars ) ) ? $this->mod_get_vars['offset'] : 0 ;
 		$this->mod_view_data['applied_perpage'] = ( $this->mod_view_data['cms_vars']['inventory_page_max'] == '' ) ? 20 : $this->mod_view_data['cms_vars']['inventory_page_max'];

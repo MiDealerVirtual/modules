@@ -15,6 +15,10 @@
 <?
 	# Display filter alert
 	if( $this->mdv_filters->detectMismatch() ):
+		// Determine what alert to show: a custom or default one
+		if( is_array( $this->cms_vars['custom_alert'] ) && $this->cms_vars['custom_alert']['enabled'] == "yes" ):
+			?>{pyro:widget_fetcher:instance id="<?=$this->cms_vars['custom_alert']['target_id']?>"}<?
+		else:
 	?>
                     <!-- alert -->
                     <div class="alert_1">
@@ -24,6 +28,7 @@
                     </div>
                     <!-- alert -->
 	<?
+		endif;
 	endif;
 ?>                
                 
