@@ -38,11 +38,18 @@ class Inventario extends Public_Controller
 		// Save Slug and CMS vars
 		$this->mod_view_data['mod_uri_slug'] = $this->mod_uri_slug;
 		$this->mod_cms_vars = extractVars( varsToExtract() );
-		$this->mod_view_data['cms_vars'] = $this->mod_cms_vars;
 		
 		// Fetch extra variables
-		$this->mod_view_data['cms_vars']['inventory_page_max'] = parseStr( '{pyro:variables:inventory_page_max}' );
-		$this->mod_view_data['cms_vars']['skip_stock_vehicles'] = parseStr( '{pyro:variables:skip_stock_vehicles}' );
+		$this->mod_cms_vars['inventory_page_max'] = parseStr( '{pyro:variables:inventory_page_max}' );
+		$this->mod_cms_vars['skip_stock_vehicles'] = parseStr( '{pyro:variables:skip_stock_vehicles}' );
+			
+			// Vin number masking
+			$vin_num_mask = parseStr( '{pyro:variables:vin_num_mask}' );
+			$vin_num_mask = ( $vin_num_mask == '' ) ? false : json_decode( $vin_num_mask, true );
+			$this->mod_cms_vars['vin_num_mask'] = $vin_num_mask;
+			
+		// Pass CMS vars to view
+		$this->mod_view_data['cms_vars'] = $this->mod_cms_vars;
 	}
 	
 	// Index, main module method
@@ -51,7 +58,8 @@ class Inventario extends Public_Controller
 		// Extend cms variables
 		$custom_alert = parseStr( '{pyro:variables:inventory_page_custom_alert}' );
 		$custom_alert = ( $custom_alert == '' ) ? false : json_decode( $custom_alert, true );
-		$this->mod_view_data['cms_vars']['custom_alert'] = $custom_alert;
+		$this->mod_cms_vars['custom_alert'] = $custom_alert;
+		$this->mod_view_data['cms_vars'] = $this->mod_cms_vars;
 		
 		// Fetch inventory
 		$this->mod_view_data['applied_offset'] = ( array_key_exists( 'offset', $this->mod_get_vars ) ) ? $this->mod_get_vars['offset'] : 0 ;
@@ -59,7 +67,7 @@ class Inventario extends Public_Controller
 		$this->mod_view_data['vehicles_collected'] = $this->inventario_model->fetchMultiVehicles( 'vehicles_available_to_viewer_final', $this->mod_cms_vars['mdv_ids'] );
 		
 		// Initiate Mdv Filter Library
-		$this->load->library( 'Mdv_Filters', array( 'db_results' => $this->mod_view_data['vehicles_collected'], 'filters' => array( 'YEAR', 'MAKE', 'MODEL', 'CONDITION', 'TRANSMISSION', 'PRICE_RANGE', 'MILEAGE_RANGE' ), 'get_vars' => $this->mod_get_vars, 'mdv_ids' => $this->mod_cms_vars['mdv_ids'] ) );
+		$this->load->library( 'Mdv_Filters', array( 'db_results' => $this->mod_view_data['vehicles_collected'], 'filters' => array( 'YEAR', 'MAKE', 'MODEL', 'CONDITION', 'TRANSMISSION', 'PRICE_RANGE', 'MILEAGE_RANGE' ), 'get_vars' => $this->mod_get_vars, 'mdv_ids' => $this->mod_cms_vars['mdv_ids'], 'cms_vars' => $this->mod_cms_vars ) );
 		
 		// Apply Mdv Filters ( if necesary )
 		$filtered_results = $this->mdv_filters->applyFilters();
@@ -159,6 +167,12 @@ class Inventario extends Public_Controller
 		else
             $price_to_show['price'] = "Llama hoy";
 		$this->mod_view_data['v_price'] = $price_to_show;
+		
+		// Mask vin number (if enabled)
+		$masked_vin = $v->VIN;
+		if( is_array( $this->mod_cms_vars['vin_num_mask'] ) && $this->mod_cms_vars['vin_num_mask']['enabled'] == 'yes' )
+			$masked_vin = substr( $masked_vin, ( strlen( $masked_vin ) - $this->mod_cms_vars['vin_num_mask']['show'] ) );
+		$this->mod_view_data['masked_vin'] = $masked_vin;
 		
 		// Meta Content / SEO Vars
 		$this->mod_view_data['seo_vehicle_label'] = $v->MAKE." ".$v->MODEL.( ( $v->TRIM != '' ) ? ' '.$v->TRIM : '' )." ".$v->YEAR;

@@ -40,15 +40,22 @@
 		$i = 1;
 		foreach( $results as $v )
 		{
+			// NO LONGER USED, DELETE ON NEXT PUSH
 			// skip, if stock, if required
-			if( $cms_vars['skip_stock_vehicles'] == 'yes' && $v->IOL_IMAGE == 1 )
-				continue;
+			// if( $cms_vars['skip_stock_vehicles'] == 'yes' && $v->IOL_IMAGE == 1 )
+			//	continue;
 			
 			// create vehicle link
 			$v_link = getVehicleLink( $v, $mod_uri_slug, $cms_vars );
 			
 			// create vehicle title
 			$v_label = getVehicleLabel( $v );
+			
+			// mask vin number (if enabled)
+			$masked_vin = $v->VIN;
+			if( is_array( $cms_vars['vin_num_mask'] ) && $cms_vars['vin_num_mask']['enabled'] == 'yes' ):
+				$masked_vin = substr( $masked_vin, ( strlen( $masked_vin ) - $cms_vars['vin_num_mask']['show'] ) );
+			endif;
 			
 			// translate vehicle attributes
 			transalateVehicleAttr( $v );
@@ -73,7 +80,7 @@
                                     <li><strong>Transmisi&oacute;n: </strong> <?=$v->TRANSMISSION?></li>
                                 </ul>
                                 <ul>
-                                    <li><strong>VIN:</strong><?=$v->VIN?></li>
+                                    <li><strong>VIN:</strong><?=$masked_vin?></li>
 								<? if( $v->MILEAGE > 0 ) : ?>
                                     <li><strong>Millaje:</strong> <?=translateNumber( $v->MILEAGE, 0 )?></li>
                                 <? else: ?>

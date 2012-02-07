@@ -36,7 +36,7 @@
                             <li><strong>Color:</strong> <?=$v->COLOR?></li>
                             <li><strong>Condici&oacute;n:</strong> <?=$v->CONDITION?></li>
                             <li><strong>Transmisi&oacute;n:</strong> <?=$v->TRANSMISSION?></li>
-                            <li><strong>VIN:</strong> <?=$v->VIN?></li>
+                            <li><strong>VIN:</strong> <?=$masked_vin?></li>
 						<?
                             # Display Milleage if used vehicle
                             if( $v->CONDITION != 'Nuevo' && $v->MILEAGE > 0 ):

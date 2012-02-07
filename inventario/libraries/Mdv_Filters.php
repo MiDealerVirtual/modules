@@ -12,6 +12,7 @@
 		private $filter_mismatch;
 		private $get_vars;
 		/* NEW */ private $mdv_sort;
+		/* NEW */ private $mod_cms_vars;
 		
 		# Constructor
 		function __construct( $config = array() )
@@ -43,6 +44,10 @@
 			// Assign $_GET Vars to Library
 			if( array_key_exists( 'get_vars', $config ) )
 				$this->get_vars = $config['get_vars'];
+			
+			// Assign Mod Cms Vars to Library
+			if( array_key_exists( 'cms_vars', $config ) )
+				$this->mod_cms_vars = $config['cms_vars'];
 			
 			// Initiate Private Data Members
 			$this->years =
@@ -255,6 +260,10 @@
 					elseif( $k == "prices" && $v != '' )
 						$where .= " AND `PRICE_RANGE` = '".$v."'";
 				}
+				
+				// Skip vehicle if stock image is present
+				if( $this->mod_cms_vars['skip_stock_vehicles'] == 'yes' )
+					$where .= " AND `IOL_IMAGE` = '0'";
 			
 				// Return where clause
 				return $where;
