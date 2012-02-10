@@ -468,7 +468,7 @@ class Lms_post_api extends Public_Controller
 			// Send email
 			$this->email->send();
 		}
-		elseif( $this->mod_cms_vars['crm_type'] == "email_lead" )
+		elseif( $this->mod_cms_vars['crm_type'] == "email_leads" )
 		{
 			// Prepare correct message
 			if( $type == 'reservation' )
