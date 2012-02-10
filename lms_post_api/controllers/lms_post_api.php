@@ -468,6 +468,55 @@ class Lms_post_api extends Public_Controller
 			// Send email
 			$this->email->send();
 		}
+		elseif( $this->mod_cms_vars['crm_type'] == "email_lead" )
+		{
+			// Prepare correct message
+			if( $type == 'reservation' )
+			{
+				// Prepare email
+				$vehicle = $veh->YEAR." ".$veh->MAKE." ".$veh->MODEL.( ( $veh->TRIM != '' ) ? " ".$veh->TRIM." " : " " ).$veh->COLOR;
+				$subject = "Nuevo Lead: Reservación de Vehículo";
+				$message =
+				"<strong>Nombre:</strong> ".$db_data['FNAME']." ".$db_data['LNAME']."<br />".
+				"<strong>Tel&eacute;fono:</strong> ".$db_data['TELEPHONE']."<br />".
+				"<strong>Email:</strong> ".$db_data['EMAIL']."<br />".
+				"<strong>Fecha:</strong> ".date( 'd/m/Y' )."<br />".
+				"<strong>Veh&iacute;culo:</strong> ".$vehicle."<br />".
+				"<strong>VIN:</strong> ".$veh->VIN."<br />".
+				"<strong>Precio:</strong> ".$db_data['PRICE']."<br /><br />".
+				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
+			}
+			else
+			{
+				// Prepare email
+				$subject = 'Contactar Cliente: '.$db_data['CONTACT_NAME'];
+				$message =
+				"<strong>Nombre:</strong> ".$db_data['CONTACT_NAME']."<br />".
+				"<strong>Tel&eacute;fono:</strong> ".$db_data['TELEPHONE']."<br />".
+				"<strong>Email:</strong> ".$db_data['EMAIL']."<br />".
+				"<strong>Fecha:</strong> ".date( 'd/m/Y' )."<br />".
+				"<strong>Asunto:</strong> ".$db_data['SUBJECT']."<br />".
+				"<strong>Mensaje:</strong> ".$db_data['MESSAGE']."<br /><br />".
+				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
+			}
+			
+			// Load Email Library
+			$this->load->library('email');
+			
+			// Configure email settings
+			$this->email->initialize( array( 'mailtype' => 'html' ) );
+			
+			// Configure email reciepients
+			$this->email->from( 'leads@midealervirtual.com', 'MiDealerVirtual.com' );
+			$this->email->to( $this->mod_cms_vars['crm_email'] );
+			
+			// Configure email content
+			$this->email->subject( $subject );
+			$this->email->message( $message );
+			
+			// Send email
+			$this->email->send();
+		}
 	}
 }
 ?>
