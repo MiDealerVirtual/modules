@@ -568,7 +568,7 @@ class Lms_post_api extends Public_Controller
 				"<strong>Residencia:</strong>".( ( $this->_postItem( 'housing_status' ) ) ? $this->_postItem( 'housing_status' ) : '' )."<br />".
 				"<strong>Pago de Residencia:</strong>".( ( $this->_postItem( 'housing_payment' ) ) ? $this->_postItem( 'housing_payment' ) : '' )."<br />".
 				"<h2>Vehículo de Interés</h2>".
-				"<strong>Vehículo que Busca:</strong><br />".( ( $this->_postItem( 'vehicle_interested' ) ) ? $this->_postItem( 'vehicle_intrested' ) : '' )."<br /><br />".
+				"<strong>Vehículo que Busca:</strong><br />".( ( $this->_postItem( 'vehicle_interested' ) ) ? $this->_postItem( 'vehicle_interested' ) : '' )."<br /><br />".
 				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
 			}
 			elseif( $type == 'trade_in' )
