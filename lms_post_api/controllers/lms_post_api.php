@@ -338,7 +338,7 @@ class Lms_post_api extends Public_Controller
 					$param_2 = array( 'CONTACT_NAME' => $this->_postItem( 'fname' ).' '.$this->_postItem( 'lname' ),
 									  'SUBJECT' => $this->_postItem( 'subject' ),
 									  'MESSAGE' => $this->_postItem( 'message' ) );
-					$param_3 = 'contact';
+					$param_3 = $data_to_push['TYPE'];
 				}
 				
 				// finish param_2
@@ -486,7 +486,7 @@ class Lms_post_api extends Public_Controller
 				"<strong>Precio:</strong> ".$db_data['PRICE']."<br /><br />".
 				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
 			}
-			else
+			elseif( $type == 'contact' )
 			{
 				// Prepare email
 				$subject = 'Contactar Cliente: '.$db_data['CONTACT_NAME'];
@@ -497,6 +497,26 @@ class Lms_post_api extends Public_Controller
 				"<strong>Fecha:</strong> ".date( 'd/m/Y' )."<br />".
 				"<strong>Asunto:</strong> ".$db_data['SUBJECT']."<br />".
 				"<strong>Mensaje:</strong> ".$db_data['MESSAGE']."<br /><br />".
+				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
+			}
+			elseif( $type == 'service_apt' )
+			{
+				// Prepare email
+				$subject = 'Cita de Servicio: '.$db_data['CONTACT_NAME'];
+				$message =
+				"<h2>Información de Contacto</h2>".
+				"<strong>Nombre:</strong> ".$db_data['CONTACT_NAME']."<br />".
+				"<strong>Tel&eacute;fono:</strong> ".$db_data['TELEPHONE']."<br />".
+				"<strong>Email:</strong> ".$db_data['EMAIL']."<br />".
+				"<h2>Información de Cita</h2>".
+				"<strong>Fecha preferida:</strong> ".( ( $this->_postItem( 'preferred_date' ) ) ? $this->_postItem( 'preferred_date' ) : '' )."<br />".
+				"<strong>Hora preferida:</strong> ".( ( $this->_postItem( 'preferred_time' ) ) ? $this->_postItem( 'preferred_time' ) : '' )."<br />".
+				"<strong>Tipo de servicio:</strong> ".( ( $this->_postItem( 'service_type' ) ) ? $this->_postItem( 'service_type' ) : '' )."<br />".
+				"<h2>Información del Vehículo</h2>".
+				"<strong>Marca:</strong> ".( ( $this->_postItem( 'make' ) ) ? $this->_postItem( 'make' ) : '' )."<br />".
+				"<strong>Modelo:</strong> ".( ( $this->_postItem( 'model' ) ) ? $this->_postItem( 'model' ) : '' )."<br />".
+				"<strong>Año:</strong> ".( ( $this->_postItem( 'year' ) ) ? $this->_postItem( 'year' ) : '' )."<br />".
+				"<strong>Millaje:</strong> ".( ( $this->_postItem( 'mileage' ) ) ? $this->_postItem( 'mileage' ) : '' )."<br /><br />".
 				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
 			}
 			
