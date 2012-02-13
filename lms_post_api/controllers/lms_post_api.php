@@ -132,7 +132,7 @@ class Lms_post_api extends Public_Controller
 		$main_fields_required = array( 'CLIENT_ID', 'TYPE', 'CONTACT_NAME', 'CONTACT_TELEPHONE' );
 		
 		// additional fields required
-		$add_fields = array( 'month', 'day', 'year', array( 'civil_status', true ), array( 'address', true ), 'neighborhood', array( 'city', true ), array( 'zip', true ), array( 'employment_status', true ), array( 'monthly_income', true ), 'housing_status', 'housing_payment', 'dealer', array( 'vehicle_intrested', true ) );
+		$add_fields = array( 'month', 'day', 'year', array( 'civil_status', true ), array( 'address', true ), 'neighborhood', array( 'city', true ), array( 'zip', true ), array( 'employment_status', true ), array( 'monthly_income', true ), 'housing_status', 'housing_payment', 'dealer', array( 'vehicle_interested', true ) );
 		
 		// call post template
 		$this->_postTemplate( 'credit', $main_fields_required, $add_fields );
@@ -565,10 +565,10 @@ class Lms_post_api extends Public_Controller
 				"<h2>Información Financiera</h2>".
 				"<strong>Tipo de Empleo:</strong> ".( ( $this->_postItem( 'employment_status' ) ) ? $this->_postItem( 'employment_status' ) : '' )."<br />".
 				"<strong>Ingreso Mensual:</strong> ".( ( $this->_postItem( 'monthly_income' ) ) ? $this->_postItem( 'monthly_income' ) : '' )."<br />".
-				"<strong>Residencia:</strong><br />".( ( $this->_postItem( 'housing_status' ) ) ? $this->_postItem( 'housing_status' ) : '' )."<br />".
-				"<strong>Pago de Residencia:</strong><br />".( ( $this->_postItem( 'housing_payment' ) ) ? $this->_postItem( 'housing_payment' ) : '' )."<br />".
+				"<strong>Residencia:</strong>".( ( $this->_postItem( 'housing_status' ) ) ? $this->_postItem( 'housing_status' ) : '' )."<br />".
+				"<strong>Pago de Residencia:</strong>".( ( $this->_postItem( 'housing_payment' ) ) ? $this->_postItem( 'housing_payment' ) : '' )."<br />".
 				"<h2>Vehículo de Interés</h2>".
-				"<strong>Vehículo que Busca:</strong><br />".( ( $this->_postItem( 'vehicle_intrested' ) ) ? $this->_postItem( 'vehicle_intrested' ) : '' )."<br /><br />".
+				"<strong>Vehículo que Busca:</strong><br />".( ( $this->_postItem( 'vehicle_interested' ) ) ? $this->_postItem( 'vehicle_intrested' ) : '' )."<br /><br />".
 				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
 			}
 			elseif( $type == 'trade_in' )
