@@ -519,6 +519,78 @@ class Lms_post_api extends Public_Controller
 				"<strong>Millaje:</strong> ".( ( $this->_postItem( 'mileage' ) ) ? $this->_postItem( 'mileage' ) : '' )."<br /><br />".
 				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
 			}
+			elseif( $type == 'parts' )
+			{
+				// Prepare email
+				$subject = 'Solicitud de Pieza: '.$db_data['CONTACT_NAME'];
+				$message =
+				"<h2>Información de Contacto</h2>".
+				"<strong>Nombre:</strong> ".$db_data['CONTACT_NAME']."<br />".
+				"<strong>Tel&eacute;fono:</strong> ".$db_data['TELEPHONE']."<br />".
+				"<strong>Email:</strong> ".$db_data['EMAIL']."<br />".
+				"<h2>Información de Vehículo</h2>".
+				"<strong>Marca:</strong> ".( ( $this->_postItem( 'make' ) ) ? $this->_postItem( 'make' ) : '' )."<br />".
+				"<strong>Modelo:</strong> ".( ( $this->_postItem( 'model' ) ) ? $this->_postItem( 'model' ) : '' )."<br />".
+				"<strong>Año:</strong> ".( ( $this->_postItem( 'year' ) ) ? $this->_postItem( 'year' ) : '' )."<br />".
+				"<strong>Ajuste:</strong> ".( ( $this->_postItem( 'trim' ) ) ? $this->_postItem( 'trim' ) : '' )."<br />".
+				"<h2>Información de Pieza</h2>".
+				"<strong>Pieza para:</strong> ".( ( $this->_postItem( 'parts_for' ) ) ? $this->_postItem( 'parts_for' ) : '' )."<br />".
+				"<strong>Urgencia:</strong> ".( ( $this->_postItem( 'urgency' ) ) ? $this->_postItem( 'urgency' ) : '' )."<br />".
+				"<strong>Descripción:</strong><br />".( ( $this->_postItem( 'description' ) ) ? $this->_postItem( 'description' ) : '' )."<br /><br />".
+				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
+			}
+			elseif( $type == 'credit' )
+			{
+				// Prepare birthday
+				$m = $this->_postItem( 'month' );
+				$d = $this->_postItem( 'day' );
+				$y = $this->_postItem( 'year' );
+				$dob = $m."/".$d."/".$y;
+				$dob = ( $dob != "//" ) ? $dob : '';
+				
+				// Prepare email
+				$subject = 'Solicitud de Financiamiento: '.$db_data['CONTACT_NAME'];
+				$message =
+				"<h2>Información de Solicitante</h2>".
+				"<strong>Nombre:</strong> ".$db_data['CONTACT_NAME']."<br />".
+				"<strong>Tel&eacute;fono:</strong> ".$db_data['TELEPHONE']."<br />".
+				"<strong>Email:</strong> ".$db_data['EMAIL']."<br />".
+				"<strong>Fecha de Nacimiento:</strong> ".$dob."<br />".
+				"<strong>Estado Civil:</strong> ".$this->_postItem( 'civil_status' )."<br />".
+				"<h2>Información de Dirección</h2>".
+				"<strong>Dirección:</strong> ".( ( $this->_postItem( 'address' ) ) ? $this->_postItem( 'address' ) : '' )."<br />".
+				"<strong>Urbanización:</strong> ".( ( $this->_postItem( 'neighborhood' ) ) ? $this->_postItem( 'neighborhood' ) : '' )."<br />".
+				"<strong>Cuidad:</strong> ".( ( $this->_postItem( 'city' ) ) ? $this->_postItem( 'city' ) : '' )."<br />".
+				"<strong>Código Postal:</strong> ".( ( $this->_postItem( 'zip' ) ) ? $this->_postItem( 'zip' ) : '' )."<br />".
+				"<h2>Información Financiera</h2>".
+				"<strong>Tipo de Empleo:</strong> ".( ( $this->_postItem( 'employment_status' ) ) ? $this->_postItem( 'employment_status' ) : '' )."<br />".
+				"<strong>Ingreso Mensual:</strong> ".( ( $this->_postItem( 'monthly_income' ) ) ? $this->_postItem( 'monthly_income' ) : '' )."<br />".
+				"<strong>Residencia:</strong><br />".( ( $this->_postItem( 'housing_status' ) ) ? $this->_postItem( 'housing_status' ) : '' )."<br />".
+				"<strong>Pago de Residencia:</strong><br />".( ( $this->_postItem( 'housing_payment' ) ) ? $this->_postItem( 'housing_payment' ) : '' )."<br />".
+				"<h2>Vehículo de Interés</h2>".
+				"<strong>Vehículo que Busca:</strong><br />".( ( $this->_postItem( 'vehicle_intrested' ) ) ? $this->_postItem( 'vehicle_intrested' ) : '' )."<br /><br />".
+				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
+			}
+			elseif( $type == 'trade_in' )
+			{
+				// Prepare email
+				$subject = 'Cotización de Trade-in: '.$db_data['CONTACT_NAME'];
+				$message =
+				"<h2>Información del Cliente</h2>".
+				"<strong>Nombre:</strong> ".$db_data['CONTACT_NAME']."<br />".
+				"<strong>Tel&eacute;fono:</strong> ".$db_data['TELEPHONE']."<br />".
+				"<strong>Email:</strong> ".$db_data['EMAIL']."<br />".
+				"<h2>Información de Vehículo</h2>".
+				"<strong>Marca:</strong> ".( ( $this->_postItem( 'make' ) ) ? $this->_postItem( 'make' ) : '' )."<br />".
+				"<strong>Modelo:</strong> ".( ( $this->_postItem( 'model' ) ) ? $this->_postItem( 'model' ) : '' )."<br />".
+				"<strong>Año:</strong> ".( ( $this->_postItem( 'year' ) ) ? $this->_postItem( 'year' ) : '' )."<br />".
+				"<strong>Millaje:</strong> ".( ( $this->_postItem( 'mileage' ) ) ? $this->_postItem( 'mileage' ) : '' )."<br />".
+				"<strong>Número de Chassis:</strong> ".( ( $this->_postItem( 'vin' ) ) ? $this->_postItem( 'vin' ) : '' )."<br />".
+				"<strong>Condición:</strong> ".( ( $this->_postItem( 'condition' ) ) ? $this->_postItem( 'condition' ) : '' )."<br />".
+				"<strong>Color Exterior:</strong> ".( ( $this->_postItem( 'color_exterior' ) ) ? $this->_postItem( 'color_exterior' ) : '' )."<br />".
+				"<strong>Color Interior:</strong> ".( ( $this->_postItem( 'color_interior' ) ) ? $this->_postItem( 'color_interior' ) : '' )."<br /><br />".
+				"<em><strong>Mi Dealer Virtual (c) ".date( 'Y' )."</strong></em>";
+			}
 			
 			// Load Email Library
 			$this->load->library('email');
