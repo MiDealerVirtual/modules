@@ -179,7 +179,7 @@ class Lms_post_api extends Public_Controller
 			$temp = $this->_postItem( $f );
 			
 			// save value, if present
-			if( $temp != false )
+			if( $temp != false && /* NEW */ $temp != 'mdvcms_opt_hide' )
 			{
 				// add to unique data
 				$unique_data[$f] = $temp;
