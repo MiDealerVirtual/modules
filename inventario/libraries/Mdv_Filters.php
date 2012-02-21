@@ -239,6 +239,9 @@
 			# Create WHERE clause
 			private function createWhereClause( $vars )
 			{
+				// Optional flags
+				$skip_optional_condition = false;
+				
 				// Initiate Where Clause
 				$where = " 1=1 ";
 				
@@ -252,7 +255,12 @@
 					elseif( $k == "models" && $v != '' )
 						$where .= " AND `MODEL` LIKE '%".$v."%'";
 					elseif( $k == "conditions" && $v != '' )
+					{
 						$where .= " AND `CONDITION` = '".$v."'";
+						
+						// Set flag for future use
+						$skip_optional_condition = true;
+					}
 					elseif( $k == "transmissions" && $v != '' )
 						$where .= " AND `TRANSMISSION` = '".$v."'";
 					elseif( $k == "miles" && $v != '' )
@@ -264,6 +272,10 @@
 				// Skip vehicle if stock image is present
 				if( $this->mod_cms_vars['skip_stock_vehicles'] == 'yes' )
 					$where .= " AND `IOL_IMAGE` = '0'";
+					
+				// Filter inventory by type (CMS option)
+				if( $this->mod_cms_vars['filtered_inventory_allowed'] != '' && !$skip_optional_condition )
+					$where .= " AND `CONDITION` IN (".$this->mod_cms_vars['filtered_inventory_allowed'].")";
 			
 				// Return where clause
 				return $where;

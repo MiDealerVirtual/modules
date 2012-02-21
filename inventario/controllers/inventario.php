@@ -42,6 +42,7 @@ class Inventario extends Public_Controller
 		// Fetch extra variables
 		$this->mod_cms_vars['inventory_page_max'] = parseStr( '{pyro:variables:inventory_page_max}' );
 		$this->mod_cms_vars['skip_stock_vehicles'] = parseStr( '{pyro:variables:skip_stock_vehicles}' );
+		$this->mod_cms_vars['filtered_inventory_allowed'] = parseStr( '{pyro:variables:filtered_inventory_allowed}' );
 			
 			// Vin number masking
 			$vin_num_mask = parseStr( '{pyro:variables:vin_num_mask}' );
