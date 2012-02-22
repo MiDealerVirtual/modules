@@ -217,8 +217,17 @@ class Inventario extends Public_Controller
 				// Finish query
 				$sql .= " ORDER BY `MAKE` ASC";
 				
-				echo $sql;
-					
+				// Return models of vehicles
+				$results = $this->mdv_db->query( $sql );
+				$models = $results->result_array();
+				
+				// New options to return
+				$html = '';
+				foreach( $models as $m )
+				{
+					$html .= '<option value="'.$m['MODEL'].'">'.$m['MODEL'].'</option>';	
+				}
+				echo $html;
 			}
 		}
 	}
