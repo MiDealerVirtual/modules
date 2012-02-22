@@ -26,6 +26,9 @@ $route['inventario/admin(:any)?'] 	= 'admin$1';
 // Dynamic Vehicle URLs
 include_once( "dynamic_routes.php" );
 
+// Other static routes
+$route['inventario/request'] = 'inventario/request';
+
 // Master route
 $route['inventario(:any)'] 	= 'inventario/index$1';
 ?>
