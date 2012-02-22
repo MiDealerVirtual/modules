@@ -343,7 +343,7 @@
 					
 					// Execute new SQL query	
 					$now_filtered = $this->CI->mdv_db->query( $new_sql );
-					echo $new_sql;
+					
 					// Determine if Filters produced a mismatch
 					if( $now_filtered->num_rows() == 0 || $now_filtered == false )
 						$this->filter_mismatch = true;
