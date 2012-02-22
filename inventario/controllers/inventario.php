@@ -191,5 +191,11 @@ class Inventario extends Public_Controller
 			set_metadata( 'keywords', $this->mod_view_data['seo_vehicle_keywords'] )->
 			build( 'vehiculo', $this->mod_view_data );
 	}
+	
+	// Index, main module method
+	public function request()
+	{
+		echo "<h1>AJAX Request</h1>";
+	}
 }
 ?>
