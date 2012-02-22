@@ -195,7 +195,32 @@ class Inventario extends Public_Controller
 	// Index, main module method
 	public function request()
 	{
-		echo "<h1>AJAX Request</h1>";
+		// Make sure that $_POST is present
+		if( true || ( isset( $_POST ) && count( $_POST ) > 0 ) )
+		{
+			// Determine what action to perform
+			
+			// Return Models for quick search
+			if( $this->input->get( 'action' ) == 'quick_search_model' )
+			{
+				// Prepare query
+				$sql = "SELECT DISTINCT `MODEL` FROM `vehicles_available_to_viewer_final` WHERE `CLIENT_ID` IN (".$this->mod_cms_vars['mdv_ids'].") AND `MAKE` = '".$this->input->get( 'qs_make' )."'";
+				
+					// Restrict inventory (if enabled)
+					if( $this->mod_cms_vars['filtered_inventory_allowed'] != '' )
+						$sql .= " AND `CONDITION` IN (".$this->mod_cms_vars['filtered_inventory_allowed'].")";
+					
+					// Remove stock vehicles (if enabled)
+					if( $this->mod_cms_vars['skip_stock_vehicles'] == 'yes' )
+							$sql .= " AND `IOL_IMAGE` = '0'";
+				
+				// Finish query
+				$sql .= " ORDER BY `MAKE` ASC";
+				
+				echo $sql;
+					
+			}
+		}
 	}
 }
 ?>
