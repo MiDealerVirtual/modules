@@ -222,7 +222,7 @@ class Inventario extends Public_Controller
 				$models = $results->result_array();
 				
 				// New options to return
-				$html = '';
+				$html = '<option value="">Seleccione Modelo</option>';
 				foreach( $models as $m )
 				{
 					$html .= '<option value="'.$m['MODEL'].'">'.$m['MODEL'].'</option>';	
