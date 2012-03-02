@@ -205,10 +205,6 @@ class Lms_post_api extends Public_Controller
 			unset( $unique_data['month'], $unique_data['day'], $unique_data['year'] );
 		}
 		
-		// add `extra_location`
-		if( $this->_postItem( 'extra_location' ) != false )
-			$unique_data['extra_location'] = $this->_postItem( 'extra_location' );
-		
 		// add unique data
 		if( count( $unique_data ) > 0 )
 			$db_data['DATA'] = $unique_data;
@@ -242,7 +238,7 @@ class Lms_post_api extends Public_Controller
 	{
 		// detect location
 		$client_id = $this->_postItem( 'cid' );
-		if( strpos( $client_id, "-" ) !== FALSE )
+		/*if( strpos( $client_id, "-" ) !== FALSE )
 		{
 			// extract
 			$client_id = explode( "-", $this->_postItem( 'cid' ) );
@@ -250,7 +246,7 @@ class Lms_post_api extends Public_Controller
 			// save location
 			$_POST['extra_location'] = $client_id[1];
 			$client_id = $client_id[0];
-		}
+		}*/
 		
 		// prepare temp
 		$db_data_temp = array( 'CLIENT_ID' => $client_id,
