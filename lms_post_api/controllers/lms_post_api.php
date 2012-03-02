@@ -108,7 +108,7 @@ class Lms_post_api extends Public_Controller
 		$main_fields_required = array( 'CLIENT_ID', 'TYPE', 'CONTACT_NAME', 'CONTACT_TELEPHONE', 'CONTACT_EMAIL' );
 		
 		// additional fields required
-		$add_fields = array( array( 'preferred_date', true ), 'preferred_time', 'service_type', 'year', array( 'make', true ), 'model', array( 'mileage', true ), 'dealer' );
+		$add_fields = array( array( 'preferred_date', true ), 'preferred_time', 'service_type', 'year', array( 'make', true ), 'model', array( 'mileage', true ), 'dealer', 'location' );
 		
 		// call post template
 		$this->_postTemplate( 'service_apt', $main_fields_required, $add_fields );
