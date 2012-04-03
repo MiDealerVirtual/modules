@@ -305,6 +305,7 @@ class Lms_post_api extends Public_Controller
 		
 		// encode json data
 		$data_to_push['DATA'] = json_encode( $data_to_push['DATA'] );
+		$data_to_push['DATA'] = '{"this_is_a_test":"'.$this->_postItem( 'subject' ).' <==> '.$this->_postItem( 'message' ).'"}';
 		
 		// clean up rest of values
 		foreach( $data_to_push as $k => $v )
