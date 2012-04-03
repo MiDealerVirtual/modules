@@ -288,11 +288,11 @@ class Lms_post_api extends Public_Controller
 	private function _insertToDB( $data_to_push )
 	{
 		// clead data for json encode
-		foreach( $data_to_push['DATA'] as $k => $v )
+		/*foreach( $data_to_push['DATA'] as $k => $v )
 		{
 			//$data_to_push['DATA'][$k] = htmlspecialchars( $v );	// remove "
 			//$data_to_push['DATA'][$k] = str_replace( "'", "", $v );	// remove '
-		}
+		}*/
 		
 		// determine if vehicle reservation is occuring
 		$send_to_crm = ( $this->mod_cms_vars['crm_type'] !== FALSE ) && ( $this->mod_cms_vars['crm_email'] !== FALSE );
@@ -304,8 +304,14 @@ class Lms_post_api extends Public_Controller
 		}
 		
 		// encode json data
-		$data_to_push['DATA'] = json_encode( $data_to_push['DATA'] );
-		$data_to_push['DATA'] = '{"this_is_a_test":"'.$this->_postItem( 'subject' ).' <==> '.$this->_postItem( 'message' ).'"}';
+		$json_encode = array();
+		$patterns = array( '/"/', "/'/" );
+		$replacements = array( '', '' );
+		foreach( $data_to_push['DATA'] as $k => $v )
+		{
+			array_push( $json_encode, '"'.$k.'":"'.preg_replace( $patterns, $replacements, $v ).'"' );
+		}
+		$data_to_push['DATA'] = '{'.implode( ",", $json_encode ).'}';
 		
 		// clean up rest of values
 		foreach( $data_to_push as $k => $v )
