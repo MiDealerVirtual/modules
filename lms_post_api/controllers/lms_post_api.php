@@ -290,8 +290,8 @@ class Lms_post_api extends Public_Controller
 		// clead data for json encode
 		foreach( $data_to_push['DATA'] as $k => $v )
 		{
-			$data_to_push['DATA'][$k] = htmlspecialchars( $v );	// remove "
-			$data_to_push['DATA'][$k] = str_replace( "'", "", $v );	// remove '
+			//$data_to_push['DATA'][$k] = htmlspecialchars( $v );	// remove "
+			//$data_to_push['DATA'][$k] = str_replace( "'", "", $v );	// remove '
 		}
 		
 		// determine if vehicle reservation is occuring
