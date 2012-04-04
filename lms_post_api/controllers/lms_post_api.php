@@ -309,7 +309,7 @@ class Lms_post_api extends Public_Controller
 		$replacements = array( '', '' );
 		foreach( $data_to_push['DATA'] as $k => $v )
 		{
-			array_push( $json_encode, '"'.$k.'":"'.preg_replace( $patterns, $replacements, $v ).'"' );
+			array_push( $json_encode, '"'.preg_replace( $patterns, $replacements, $k ).'":"'.preg_replace( $patterns, $replacements, $v ).'"' );
 		}
 		$data_to_push['DATA'] = '{'.implode( ",", $json_encode ).'}';
 		
@@ -318,8 +318,9 @@ class Lms_post_api extends Public_Controller
 		{
 			if( $k != "DATA" )
 			{
-				$data_to_push[$k] = htmlspecialchars( $v );	// remove "
-				$data_to_push[$k] = str_replace( "'", "", $v );	// remove '	
+				$data_to_push[$k] = preg_replace( $patterns, $replacements, $v );
+				// $data_to_push[$k] = htmlspecialchars( $v );	// remove "
+				// $data_to_push[$k] = str_replace( "'", "", $v );	// remove '	
 			}
 		}
 		
