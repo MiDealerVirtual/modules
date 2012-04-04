@@ -630,5 +630,16 @@ class Lms_post_api extends Public_Controller
 			$this->email->send();
 		}
 	}
+	
+	// private function to remove new line chars
+	private function _removeNewLine( $str )
+	{
+		// Order of replacement
+		$order = array( "\r\n", "\n", "\r" );
+		$replace = '<br />';
+		
+		// Replace
+		return str_replace( $order, $replace, $str );
+	}
 }
 ?>
