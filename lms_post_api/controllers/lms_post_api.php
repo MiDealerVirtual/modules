@@ -309,7 +309,7 @@ class Lms_post_api extends Public_Controller
 		$replacements = array( '', '' );
 		foreach( $data_to_push['DATA'] as $k => $v )
 		{
-			array_push( $json_encode, '"'.preg_replace( $patterns, $replacements, $k ).'":"'.nl2br( preg_replace( $patterns, $replacements, $v ) ).'"' );
+			array_push( $json_encode, '"'.preg_replace( $patterns, $replacements, $k ).'":"'.$this->_removeNewLine( preg_replace( $patterns, $replacements, $v ) ).'"' );
 		}
 		$data_to_push['DATA'] = '{'.implode( ",", $json_encode ).'}';
 		
