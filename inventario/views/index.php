@@ -2,7 +2,7 @@
 			<div id="column_center" class="clearfix">
 				<!-- start top box center -->
                 <div class="box_top_center clearfix">
-					<h2 class="<?=( isset( $_GET['conditions'] ) && $_GET['conditions'] == "used" ) ? "inventory_used" : "inventory_new" ?>">Inventario<? if( isset( $_GET['conditions'] ) && $_GET['conditions'] == "used" ): echo " Usado"; elseif( isset( $_GET['conditions'] ) && $_GET['conditions'] == "new" ): echo " Nuevo"; endif; ?></h2>
+					<h2 class="<?=( isset( $_GET['conditions'] ) && $_GET['conditions'] == "used" ) ? "inventory_used" : "inventory_new" ?>">Inventario<? if( isset( $_GET['conditions'] ) && $_GET['conditions'] == "used" ): echo " Usados"; elseif( isset( $_GET['conditions'] ) && $_GET['conditions'] == "new" ): echo " Nuevos"; endif; ?></h2>
                     <?
 						// Filters and Sorting Options
 						$this->load->view( 'includes/top_filters' );
