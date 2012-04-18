@@ -77,7 +77,7 @@
                     <!-- box detail 4 contactar -->
                     <div class="box_detail_4" id="jq_contact_box">
                     	<!-- start reservation form -->
-                    	{pyro:mdv_forms:reservation form_suffix="_frm_1" client_id="<?=( isset( $cms_vars['redirect_client_id'] ) && $cms_vars['redirect_client_id'] != '' ) ? $cms_vars['redirect_client_id'] : $v->CLIENT_ID?>" lead_type="reservation" veh_id="<?=$v->VEH_ID?>" veh_vin="<?=$v->VIN?>" veh_price="<?=$v_price['price']?>" vehicle="<?=$seo_vehicle_label?>"}
+                    	{pyro:mdv_forms:reservation form_suffix="_frm_1" client_id="<?=( isset( $cms_vars['redirect_client_id'] ) && $cms_vars['redirect_client_id'] != '' ) ? $cms_vars['redirect_client_id'] : $v->CLIENT_ID?>" lead_type="reservation" veh_id="<?=$v->VEH_ID?>" veh_vin="<?=$v->VIN?>" veh_price="<?=$v_price['price']?>" vehicle="<?=$seo_vehicle_label?>"<? if( isset( $cms_vars['reserve_opt_req'] ) && $cms_vars['reserve_opt_req'] != "" ):?> req_opt_fields="<?=$cms_vars['reserve_opt_req']?>"<? endif; ?>}
                         <!-- end reservation form -->
                         
                         <!--detail address-->
