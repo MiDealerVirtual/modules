@@ -169,7 +169,7 @@ class Lms_post_api extends Public_Controller
 			$this->email->to( $this->mod_cms_vars['promo_email'] );
 			
 			// Configure email content
-			$this->email->subject( $this->input->post( 'subject' ) );
+			$this->email->subject( urldecode( $this->input->post( 'subject' ) ) );
 			$this->email->message( $this->input->post( 'message' ) );
 			
 			// Send email
