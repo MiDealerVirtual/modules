@@ -156,10 +156,30 @@ class Lms_post_api extends Public_Controller
 		$this->mod_cms_vars['promo_email'] = parseStr( '{pyro:variables:promo_email}' );
 		
 		// only proceed if email is present
-		if( $this->mod_cms_vars['promo_email'] )
+		if( $this->mod_cms_vars['promo_email'] && $this->input->post( 'subject' ) && $this->input->post( 'message' ) )
 		{
-			print_r( $_POST );	
+			// Load Email Library
+			$this->load->library('email');
+			
+			// Configure email settings
+			$this->email->initialize( array( 'mailtype' => 'html' ) );
+			
+			// Configure email reciepients
+			$this->email->from( 'leads@midealervirtual.com', 'MiDealerVirtual.com' );
+			$this->email->to( $this->mod_cms_vars['promo_email'] );
+			
+			// Configure email content
+			$this->email->subject( $this->input->post( 'subject' ) );
+			$this->email->message( $this->input->post( 'message' ) );
+			
+			// Send email
+			if( $this->email->send() )
+				echo json_encode( array( 'status' => 2 ) );
+			else
+				echo json_encode( array( 'status' => 0 ) );
 		}
+		else
+			echo json_encode( array( 'status' => 1 ) );
 	}
 	
 /* PRIVATE METHODS */
