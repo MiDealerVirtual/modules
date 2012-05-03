@@ -150,6 +150,18 @@ class Lms_post_api extends Public_Controller
 		$this->_postTemplate( 'contact', $main_fields_required, $add_fields );
 	}
 	
+	public function promo()
+	{
+		// extract promo email
+		$this->mod_cms_vars['promo_email'] = parseStr( '{pyro:variables:promo_email}' );
+		
+		// only proceed if email is present
+		if( $this->mod_cms_vars['promo_email'] )
+		{
+			print_r( $_POST );	
+		}
+	}
+	
 /* PRIVATE METHODS */
 
 	private function _postTemplate( $type, $main_fields, $add_fields )
