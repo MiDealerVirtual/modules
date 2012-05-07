@@ -438,6 +438,9 @@ class Lms_post_api extends Public_Controller
 			// Prepare correct XML feed
 			if( $type == 'reservation' )
 			{
+				// Determine recipient
+				$recipient = ( is_array( $this->mod_cms_vars['crm_email'] ) ) ? $this->mod_cms_vars['crm_email'][$veh-CLIENT_ID] : $this->mod_cms_vars['crm_email'] ;
+				
 				// Prepare XML lead
 				$format =
 		'<?xml version="1.0" ?>
@@ -477,6 +480,9 @@ class Lms_post_api extends Public_Controller
 			}
 			else
 			{
+				// Determine recipient
+				$recipient = ( is_array( $this->mod_cms_vars['crm_email'] ) ) ? array_pop( $this->mod_cms_vars['crm_email'] ) : $this->mod_cms_vars['crm_email'] ;
+				
 				// Split `CONTACT_NAME`
 				$db_data['CONTACT_NAME'] = explode( " ", $db_data['CONTACT_NAME'], 2 );
 				
@@ -528,7 +534,7 @@ class Lms_post_api extends Public_Controller
 			
 			// Configure email reciepients
 			$this->email->from( 'leads@midealervirtual.com', 'MiDealerVirtual.com' );
-			$this->email->to( $this->mod_cms_vars['crm_email'] );
+			$this->email->to( $recipient );
 			
 			// Configure email content
 			$this->email->subject( 'Leads de Internet' );
