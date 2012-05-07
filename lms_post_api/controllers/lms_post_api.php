@@ -421,8 +421,9 @@ class Lms_post_api extends Public_Controller
 		if( is_array( $this->mod_cms_vars['crm_email'] ) )
 		{
 			print_r( $this->mod_cms_vars['crm_email'] );
+			$top = array_pop( $this->mod_cms_vars['crm_email'] );
 			echo "<Br />";
-			echo $this->mod_cms_vars['crm_email'][0];
+			echo $top;
 		}
 		else
 			echo $this->mod_cms_vars['crm_email'];	
