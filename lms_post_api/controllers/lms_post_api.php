@@ -419,7 +419,11 @@ class Lms_post_api extends Public_Controller
 	public function testMultEmail()
 	{
 		if( is_array( $this->mod_cms_vars['crm_email'] ) )
+		{
 			print_r( $this->mod_cms_vars['crm_email'] );
+			echo "<Br />";
+			echo $this->mod_cms_vars['crm_email'][0];
+		}
 		else
 			echo $this->mod_cms_vars['crm_email'];	
 	}
