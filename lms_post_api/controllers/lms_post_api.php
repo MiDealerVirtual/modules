@@ -34,6 +34,10 @@ class Lms_post_api extends Public_Controller
 		// Fetch CMS vars (needed)
 		$this->mod_cms_vars['crm_type'] = parseStr( '{pyro:variables:crm_type}' );
 		$this->mod_cms_vars['crm_email'] = parseStr( '{pyro:variables:crm_email}' );
+			if( strpos( $this->mod_cms_vars['crm_email'], "|" ) )
+			{
+				$this->mod_cms_vars['crm_email'] = processArrayVar( $this->mod_cms_vars['crm_email'] );
+			}
 		$this->mod_cms_vars['crm_type_exclusion'] = explode( ',', parseStr( '{pyro:variables:crm_type_exclusion}' ) );
 	}
 	
@@ -410,6 +414,14 @@ class Lms_post_api extends Public_Controller
 		{
 			return $this->json_msg_0;
 		}
+	}
+	
+	public function testMultEmail()
+	{
+		if( is_array( $this->mod_cms_vars['crm_email'] ) )
+			print_r( $this->mod_cms_vars['crm_email'] );
+		else
+			echo $this->mod_cms_vars['crm_email'];	
 	}
 	
 	private function _sendToCRM( $veh, $db_data, $type = 'reservation' )
