@@ -88,10 +88,10 @@ class Inventario extends Public_Controller
 			// Customizing Markup
 			$config['full_tag_open'] = "<div class=\"pagination clearfix\"><ul><li>P&aacute;gina: </li>";
 			$config['full_tag_close'] = "</ul></div>";
-			$config['prev_link'] = "<span>&#171;</span>";
+			$config['prev_link'] = "<span class=\"previous\">&#171;</span>";
 			$config['prev_tag_open'] = "<li>";
 			$config['prev_tag_close'] = "</li>";
-			$config['next_link'] = "<span>&#187;</span>";
+			$config['next_link'] = "<span class=\"next\">&#187;</span>";
 			$config['next_tag_open'] = "<li>";
 			$config['next_tag_close'] = "</li>";
 			$config['first_link'] = $config['last_link'] = FALSE;
