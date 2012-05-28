@@ -82,7 +82,8 @@
                         
                         <!--detail address-->
                         <div class="box_detail_address">
-                            Este veh&iacute;culo est&aacute; ubicado en:<br /><br>
+<? /*                            Este veh&iacute;culo est&aacute; ubicado en:<br /><br>*/ ?>
+						<label>Ubicaci&oacute;n del veh&iacute;culo:</label>
                         <?
                             // Display Address Dynamically
                             echo $cms_vars['lot_addresses'][$v->CLIENT_ID];
