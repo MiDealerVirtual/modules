@@ -17,7 +17,7 @@
 		}
 		
 		# Select Vehicles
-		function fetchMultiVehicles( $table = 'vehicles_available_to_viewer_final', $in = "", $extra_where = array(), $order_by = NULL, $split = NULL )
+		function fetchMultiVehicles( $table = 'vehicles_available_to_viewer_final', $in = "", $merge_used_inventory = NULL /*$extra_where = array(), $order_by = NULL, $split = NULL*/ )
 		{
 			// Prepare SQL
 			$sql =
@@ -69,6 +69,13 @@
 			// Add `WHERE` clause
 			$sql .=
 			"WHERE `CLIENT_ID` IN (".$in.") ";
+			
+			// Merger other used car inventories
+			if( $merge_used_inventory )
+			{
+				$sql .=
+				"OR ( `CLIENT_ID` IN (".implode( ",", $merge_used_inventory->ids )." ) AND `CONDITION` IN ( 'used','certified' ) ) ";
+			}
 					
 				// Detect if extra where clauses are needed
 				if( count( $extra_where ) > 0 )

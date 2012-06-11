@@ -50,6 +50,11 @@ class Inventario extends Public_Controller
 			$vin_num_mask = ( $vin_num_mask == '' ) ? false : json_decode( $vin_num_mask, true );
 			$this->mod_cms_vars['vin_num_mask'] = $vin_num_mask;
 			
+			// Merger used vehicles
+			$merge_used_vehicles = parseStr( '{pyro:variables:merge_used_vehicles}' );
+			$merge_used_vehicles = ( $merge_used_vehicles == '' ) ? false : json_decode( $this->mod_cms_vars['merge_used_vehicles'] );
+			$this->mod_cms_vars['merge_used_vehicles'] = $merge_used_vehicles;
+			
 		// Pass CMS vars to view
 		$this->mod_view_data['cms_vars'] = $this->mod_cms_vars;
 	}
@@ -66,7 +71,7 @@ class Inventario extends Public_Controller
 		// Fetch inventory
 		$this->mod_view_data['applied_offset'] = ( array_key_exists( 'offset', $this->mod_get_vars ) ) ? $this->mod_get_vars['offset'] : 0 ;
 		$this->mod_view_data['applied_perpage'] = ( $this->mod_view_data['cms_vars']['inventory_page_max'] == '' ) ? 20 : $this->mod_view_data['cms_vars']['inventory_page_max'];
-		$this->mod_view_data['vehicles_collected'] = $this->inventario_model->fetchMultiVehicles( 'vehicles_available_to_viewer_final', $this->mod_cms_vars['mdv_ids'] );
+		$this->mod_view_data['vehicles_collected'] = $this->inventario_model->fetchMultiVehicles( 'vehicles_available_to_viewer_final', $this->mod_cms_vars['mdv_ids'], ( ( $this->mod_cms_vars['merge_used_vehicles'] ) ? $this->mod_cms_vars['merge_used_vehicles'] : NULL ) );
 		
 		// Initiate Mdv Filter Library
 		$this->load->library( 'Mdv_Filters', array( 'db_results' => $this->mod_view_data['vehicles_collected'], 'filters' => array( 'YEAR', 'MAKE', 'MODEL', 'CONDITION', 'TRANSMISSION', 'PRICE_RANGE', 'MILEAGE_RANGE' ), 'get_vars' => $this->mod_get_vars, 'mdv_ids' => $this->mod_cms_vars['mdv_ids'], 'cms_vars' => $this->mod_cms_vars ) );
