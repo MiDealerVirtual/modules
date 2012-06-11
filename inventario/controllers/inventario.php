@@ -52,7 +52,7 @@ class Inventario extends Public_Controller
 			
 			// Merger used vehicles
 			$merge_used_vehicles = parseStr( '{pyro:variables:merge_used_vehicles}' );
-			$merge_used_vehicles = ( $merge_used_vehicles == '' ) ? false : json_decode( $this->mod_cms_vars['merge_used_vehicles'] );
+			$merge_used_vehicles = ( $merge_used_vehicles == '' ) ? false : json_decode( $merge_used_vehicles );
 			$this->mod_cms_vars['merge_used_vehicles'] = $merge_used_vehicles;
 			
 		// Pass CMS vars to view
