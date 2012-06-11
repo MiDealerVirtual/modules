@@ -38,6 +38,23 @@
 		$mdv_inv_seo = mysql_fetch_assoc( $mdv_inv_seo_res );
 		$mdv_inv_seo = $mdv_inv_seo['data'];
 		
+		// Fetch Merge Used Vehicles
+		$sql = "SELECT * FROM `".$db_select."`.`default_variables` WHERE `name` = 'merge_used_vehicles'";
+		$merge_used_vehicles_res = mysql_query( $sql, $cmsdb_link );
+		if( mysql_num_rows( $merge_used_vehicles_res ) > 0 )
+		{
+			$merge_used_vehicles = mysql_fetch_assoc( $merge_used_vehicles_res );
+			$merge_used_vehicles = json_decode( $merge_used_vehicles['data'] );
+			$ids = $mdv_id;
+			if( $merge_used_vehicles->merge )
+			{
+				$ids = explode( ",", $ids );
+				$ids = array_merge( $ids, $merge_used_vehicles->ids );
+				$ids = implode( ",", $ids );	
+			}
+			$mdv_id = $ids;	
+		}
+		
 			// Parse MDV Inv SEO
 			$mdv_inv_seo = explode( "|", $mdv_inv_seo );
 			$temp_arr = array();
