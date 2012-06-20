@@ -117,7 +117,7 @@ class Inventario extends Public_Controller
 		$this->template->
 			set_metadata( 'description', "Vehículos Nuevos y Usados en ".$this->mod_cms_vars['dealer_name']." ".$this->mod_cms_vars['page_title_seo_suffix'] )->
 			set_metadata( 'keywords', $this->mod_cms_vars['inventory_page_keywords'] )->
-			build( 'index', $this->mod_view_data );
+			build( 'index_p2h', $this->mod_view_data );
 	}
 	
 	public function vehiculo()
