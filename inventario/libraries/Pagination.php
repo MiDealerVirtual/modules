@@ -207,7 +207,7 @@ class Pagination {
 		$output = '';
 
 		// Render the "First" link
-		if  ($this->cur_page > ($this->num_links + 1))
+		if  ( $this->first_link && $this->cur_page > ($this->num_links + 1))
 		{
 			$output .= $this->first_tag_open.'<a href="'.$this->base_url.'">'.$this->first_link.'</a>'.$this->first_tag_close;
 		}
@@ -246,7 +246,7 @@ class Pagination {
 		}
 
 		// Render the "Last" link
-		if (($this->cur_page + $this->num_links) < $num_pages)
+		if ( $this->last_link && ($this->cur_page + $this->num_links) < $num_pages)
 		{
 			$i = (($num_pages * $this->per_page) - $this->per_page);
 			$output .= $this->last_tag_open.'<a href="'.$this->base_url.$i.'">'.$this->last_link.'</a>'.$this->last_tag_close;

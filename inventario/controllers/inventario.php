@@ -88,26 +88,31 @@ class Inventario extends Public_Controller
 		$config['per_page'] = $this->mod_view_data['applied_perpage'];
 		$config['page_query_string'] = TRUE;
 		$config['query_string_segment'] = 'offset';
-		$config['num_links'] = 3;
+		$config['num_links'] = 5;
 		
 			// Customizing Markup
-			$config['full_tag_open'] = "<div class=\"pagination clearfix\"><ul><li>P&aacute;gina: </li>";
-			$config['full_tag_close'] = "</ul></div>";
-			$config['prev_link'] = "<span class=\"previous\">&#171;</span>";
-			$config['prev_tag_open'] = "<li>";
+			$config['full_tag_open'] = "<ul class=\"paging\">";
+			$config['full_tag_close'] = "</ul>";
+			$config['prev_link'] = "&laquo;";
+			$config['prev_tag_open'] = "<li class=\"prev\">";
 			$config['prev_tag_close'] = "</li>";
-			$config['next_link'] = "<span class=\"next\">&#187;</span>";
-			$config['next_tag_open'] = "<li>";
+			$config['next_link'] = "&raquo;";
+			$config['next_tag_open'] = "<li class=\"next\">";
 			$config['next_tag_close'] = "</li>";
 			$config['first_link'] = $config['last_link'] = FALSE;
-			$config['cur_tag_open'] = "<li class=\"active\"><a href=\"#\" id=\"jq_curr_pg_link\">";
-			$config['cur_tag_close'] = "</a></li>";
+			$config['cur_tag_open'] = "<li class=\"active\">";
+			$config['cur_tag_close'] = "</li>";
 			$config['num_tag_open'] = "<li>";
 			$config['num_tag_close'] = "</li>";
 			
 		$this->pagination->initialize( $config );
 		$this->mod_view_data['pagination'] = $this->pagination->create_links();
 		$this->mod_view_data['results'] = $this->pagination->paginate_results( $this->mod_view_data['results'], $this->mod_view_data['applied_perpage'], $this->mod_view_data['applied_offset'] );
+			
+			// Create secondary pagination
+			$config['num_links'] = 1;
+			$this->pagination->initialize( $config );
+			$this->mod_view_data['pagination_small'] = $this->pagination->create_links();
 		
 		// Get Filters & Sort Html
 		$this->mod_view_data['filter_html'] = $this->mdv_filters->getFiltersHTML();
@@ -196,7 +201,7 @@ class Inventario extends Public_Controller
 		$this->template->
 			set_metadata( 'description', $this->mod_view_data['seo_vehicle_label'].". Compralo hoy en ".$this->mod_cms_vars['dealer_name'] )->
 			set_metadata( 'keywords', $this->mod_view_data['seo_vehicle_keywords'] )->
-			build( 'vehiculo', $this->mod_view_data );
+			build( 'vehiculo_p2h', $this->mod_view_data );
 	}
 	
 	// Index, main module method

@@ -90,6 +90,11 @@ class Lms_post_api extends Public_Controller
 		// additional fields required
 		$add_fields = array( "veh_id", "veh_vin", "vehicle", "veh_price" );
 		
+		// adding message - NEW 6/25/2012
+		if( $this->input->post( "message" ) )
+			array_push( $add_fields, "message", "subject" );
+		
+		
 		// call post template
 		$this->_postTemplate( 'contact', $main_fields_required, $add_fields );
 	}
