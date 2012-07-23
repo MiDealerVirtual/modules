@@ -100,7 +100,7 @@ class Lms_post_api extends Public_Controller
 		$main_fields_required = array( 'CLIENT_ID', 'TYPE', 'CONTACT_NAME', 'CONTACT_TELEPHONE', 'CONTACT_EMAIL' );
 		
 		// additional fields required
-		$add_fields = array( array( 'year', true ), array( 'make', true ), array( 'model', true ), 'trim', 'parts_for', 'urgency', 'description', 'dealer' );
+		$add_fields = array( array( 'year', true ), array( 'make', true ), array( 'model', true ), 'trim', 'parts_for', 'urgency', 'description', 'series_num', 'dealer' );
 		
 		// call post template
 		$this->_postTemplate( 'parts', $main_fields_required, $add_fields );
