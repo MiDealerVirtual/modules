@@ -107,6 +107,10 @@ class Lms_post_api extends Public_Controller
 		// additional fields required
 		$add_fields = array( array( 'year', true ), array( 'make', true ), array( 'model', true ), 'trim', 'parts_for', 'urgency', 'description', 'dealer' );
 		
+		// NEW 7/23/12: if field "series_num" is present, add it
+		if( $this->input->post( "series_num" ) )
+			array_push( $add_fields, "series_num" ); 
+		
 		// call post template
 		$this->_postTemplate( 'parts', $main_fields_required, $add_fields );
 	}
