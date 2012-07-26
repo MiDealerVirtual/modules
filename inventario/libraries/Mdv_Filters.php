@@ -394,9 +394,21 @@
 			}
 			
 			# Get Filters HTML
-			public function getFiltersHTML()
+			public function getFiltersHTML( $return_array = false )
 			{
-				return $this->getYearsDD( $this->filterGet( 'years' ) ).
+				if( $return_array )
+				{
+					return array(
+					   'years' => $this->getYearsDD( $this->filterGet( 'years' ) ),
+					   'makes' => $this->getMakesDD( $this->filterGet( 'makes' ) ),
+					   'models' => $this->getModelsDD( $this->filterGet( 'models' ) ),
+					   'conditions' => $this->getConditionsDD( $this->filterGet( 'conditions' ) ),
+					   'transmissions' => $this->getTransmissionsDD( $this->filterGet( 'transmissions' ) ),
+					   'miles' => $this->getMilesDD( $this->filterGet( 'miles' ) ),
+					   'prices' => $this->getPricesDD( $this->filterGet( 'prices' ) ) );
+				}
+				else
+					return $this->getYearsDD( $this->filterGet( 'years' ) ).
 					   $this->getMakesDD( $this->filterGet( 'makes' ) ).
 					   $this->getModelsDD( $this->filterGet( 'models' ) ).
 					   $this->getConditionsDD( $this->filterGet( 'conditions' ) ).
