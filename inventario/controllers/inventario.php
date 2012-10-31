@@ -110,12 +110,17 @@ class Inventario extends Public_Controller
 		$this->mod_view_data['results'] = $this->pagination->paginate_results( $this->mod_view_data['results'], $this->mod_view_data['applied_perpage'], $this->mod_view_data['applied_offset'] );
 			
 			// Create secondary pagination
-			$config['num_links'] = 1;
+			$config['num_links'] = 3;
 			$this->pagination->initialize( $config );
 			$this->mod_view_data['pagination_small'] = $this->pagination->create_links();
 		
 		// Get Filters & Sort Html
-		$this->mod_view_data['filter_html'] = $this->mdv_filters->getFiltersHTML();
+		$this->mod_view_data['result_breakdown'] = array(
+			"total" => $config['total_rows'],
+			"start" => $this->mod_view_data['applied_offset'] + 1,
+			"end" => $this->mod_view_data['applied_offset'] + $this->mod_view_data['applied_perpage'] );
+		$this->mod_view_data['result_breakdown']['end'] = ( $this->mod_view_data['result_breakdown']['end'] > $this->mod_view_data['result_breakdown']['total'] ) ? $this->mod_view_data['result_breakdown']['total'] : $this->mod_view_data['result_breakdown']['end'];
+		$this->mod_view_data['filter_html'] = $this->mdv_filters->getFiltersHTML( true );
 		$this->mod_view_data['sort_html'] = $this->mdv_filters->getSortHTML();
 		
 		// Load template and its data
@@ -148,20 +153,20 @@ class Inventario extends Public_Controller
 		
 		// Fetch Vehilce Images
 		$this->mod_view_data['images'] = $this->inventario_model->select_item( $this->mod_view_data['veh_id'], 'VEH_ID', 'vehicle_images', false, '*', '`IMAGE_ORDER` ASC' );
-		$this->mod_view_data['images'] = array_slice( $this->mod_view_data['images'], 0, 5 );	// ensure only 5
+		//$this->mod_view_data['images'] = array_slice( $this->mod_view_data['images'], 0, 5 );	// ensure only 5
 		
 		// Determine Correct Images Path
 		$img_base_url = $this->config->item( 'images_base_url' );	// cache
 		if( $v->IOL_IMAGE == 1 )
 		{
 			$this->mod_view_data['IMAGE_WEB_PATH'] = $img_base_url.$this->config->item( 'iol_vehicle_pictures_web_path' );
-			$this->mod_view_data['IMAGE_MED_PATH'] = $img_base_url.$this->config->item( 'iol_vehicle_pictures_med_path' ).'med_';
+			$this->mod_view_data['IMAGE_THUMB_PATH'] = $img_base_url.$this->config->item( 'iol_vehicle_pictures_thumb_path' ).'thumb_';
 			$this->mod_view_data['IMAGE_TINY_PATH'] = $img_base_url.$this->config->item( 'iol_vehicle_pictures_tiny_path' ).'tiny_';
 		}
         else
         {
 			$this->mod_view_data['IMAGE_WEB_PATH'] = $img_base_url.$this->config->item( 'vehicle_pictures_web_path' );
-			$this->mod_view_data['IMAGE_MED_PATH'] = $img_base_url.$this->config->item( 'vehicle_pictures_med_path' ).'med_';
+			$this->mod_view_data['IMAGE_THUMB_PATH'] = $img_base_url.$this->config->item( 'vehicle_pictures_thumb_path' ).'thumb_';
 			$this->mod_view_data['IMAGE_TINY_PATH'] = $img_base_url.$this->config->item( 'vehicle_pictures_tiny_path' ).'tiny_';
         }
 		

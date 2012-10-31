@@ -297,13 +297,13 @@
 		# Public Methods
 			
 			# Get DropDowns
-			public function getYearsDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "A&ntilde;o", 'name' => "years", 'css' => 'select01' ), $selected, "reverse" ); }
-			public function getMakesDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Marca", 'name' => "makes", 'css' => 'select02' ), $selected ); }
-			public function getModelsDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Modelo", 'name' => "models", 'css' => 'select03' ), $selected ); }
-			public function getConditionsDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Condici&oacute;n", 'name' => "conditions", 'css' => 'select04' ), $selected ); }
-			public function getTransmissionsDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Transmisi&oacute;n", 'name' => "transmissions", 'css' => 'select05' ), $selected ); }
-			public function getPricesDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Precio", 'name' => "prices", 'css' => 'select07' ), $selected, "normal", true, true ); }
-			public function getMilesDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Millaje", 'name' => "miles", 'css' => 'select06' ), $selected, "normal", true ); }
+			public function getYearsDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "A&ntilde;o", 'name' => "years", 'css' => 'grey-select' ), $selected, "reverse" ); }
+			public function getMakesDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Marca", 'name' => "makes", 'css' => 'grey-select' ), $selected ); }
+			public function getModelsDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Modelo", 'name' => "models", 'css' => 'grey-select' ), $selected ); }
+			public function getConditionsDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Condici&oacute;n", 'name' => "conditions", 'css' => 'grey-select' ), $selected ); }
+			public function getTransmissionsDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Transmisi&oacute;n", 'name' => "transmissions", 'css' => 'grey-select' ), $selected ); }
+			public function getPricesDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Precio", 'name' => "prices", 'css' => 'grey-select' ), $selected, "normal", true, true ); }
+			public function getMilesDD( $selected = false ){ return $this->_prepareSelectHTML( array( 'title' => "Millaje", 'name' => "miles", 'css' => 'grey-select' ), $selected, "normal", true ); }
 			
 			# Printout Values (For Debugging)
 			public function printValues( $data_value )
@@ -341,7 +341,7 @@
 						// Apply Order
 						$new_sql = $this->createOrderByClause( $new_sql );
 					
-					// Execute new SQL query	
+					// Execute new SQL query
 					$now_filtered = $this->CI->mdv_db->query( $new_sql );
 					
 					// Determine if Filters produced a mismatch
