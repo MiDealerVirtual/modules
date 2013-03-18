@@ -1,5 +1,5 @@
 <?php
-class Lms_post_api extends Public_Controller
+class Lms_post_api extends Lms_Api_Controller
 {
 # Private Data
 	private $mod_cms_vars = array();
