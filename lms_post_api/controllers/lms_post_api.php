@@ -1,5 +1,5 @@
 <?php
-class Lms_post_api extends Public_Controller
+class Lms_post_api extends Lms_Api_Controller
 {
 # Private Data
 	private $mod_cms_vars = array();
@@ -105,7 +105,7 @@ class Lms_post_api extends Public_Controller
 		$main_fields_required = array( 'CLIENT_ID', 'TYPE', 'CONTACT_NAME', 'CONTACT_TELEPHONE', 'CONTACT_EMAIL' );
 		
 		// additional fields required
-		$add_fields = array( array( 'year', true ), array( 'make', true ), array( 'model', true ), 'trim', 'parts_for', 'urgency', 'description', 'dealer' );
+		$add_fields = array( array( 'year', true ), array( 'make', true ), array( 'model', true ), 'trim', 'parts_for', 'urgency', 'description', 'series_num', 'dealer' );
 		
 		// NEW 7/23/12: if field "series_num" is present, add it
 		if( $this->input->post( "series_num" ) )
